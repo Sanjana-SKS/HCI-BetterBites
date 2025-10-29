@@ -1,0 +1,21 @@
+[
+  { "id": "1",  "name": "Bread Loaves",         "category": "Bakery",        "status": "Completed", "quantity": 25, "calories": 0,   "expires": "2025-11-02", "date": "2025-10-28" },
+  { "id": "2",  "name": "Canned Soup",          "category": "Canned Goods",  "status": "Pending",   "quantity": 40, "calories": 0,   "expires": "2026-05-01", "date": "2025-10-28" },
+  { "id": "3",  "name": "Chicken Salad Bowls",  "category": "Prepared",      "status": "Completed", "quantity": 15, "calories": 540, "expires": "2025-10-29", "date": "2025-10-28" },
+  { "id": "4",  "name": "Veggie Wraps",         "category": "Prepared",      "status": "Flagged",   "quantity": 10, "calories": 410, "expires": "2025-10-28", "date": "2025-10-28" },
+  { "id": "5",  "name": "Protein Shakes",       "category": "Beverages",     "status": "Completed", "quantity": 30, "calories": 220, "expires": "2025-11-10", "date": "2025-10-28" },
+  { "id": "6",  "name": "Salmon & Quinoa",      "category": "Prepared",      "status": "Completed", "quantity": 12, "calories": 650, "expires": "2025-10-29", "date": "2025-10-28" },
+
+  { "id": "7",  "name": "Overnight Oats",       "category": "Prepared",      "status": "Completed", "quantity": 18, "calories": 300, "expires": "2025-10-28", "date": "2025-10-27" },
+  { "id": "8",  "name": "Turkey Sandwiches",    "category": "Prepared",      "status": "Pending",   "quantity": 20, "calories": 510, "expires": "2025-10-28", "date": "2025-10-27" },
+  { "id": "9",  "name": "Fruit Cups",           "category": "Produce",       "status": "Completed", "quantity": 35, "calories": 160, "expires": "2025-10-29", "date": "2025-10-27" },
+  { "id": "10", "name": "Poke Bowls",           "category": "Prepared",      "status": "Completed", "quantity": 14, "calories": 610, "expires": "2025-10-28", "date": "2025-10-27" },
+
+  { "id": "11", "name": "Blueberry Muffins",    "category": "Bakery",        "status": "Flagged",   "quantity": 16, "calories": 420, "expires": "2025-10-27", "date": "2025-10-26" },
+  { "id": "12", "name": "Caesar Salads",        "category": "Prepared",      "status": "Completed", "quantity": 22, "calories": 460, "expires": "2025-10-27", "date": "2025-10-26" },
+  { "id": "13", "name": "Hummus & Veggies",     "category": "Produce",       "status": "Completed", "quantity": 28, "calories": 240, "expires": "2025-10-29", "date": "2025-10-26" },
+  { "id": "14", "name": "Tofu Stir Fry",        "category": "Prepared",      "status": "Pending",   "quantity": 12, "calories": 580, "expires": "2025-10-27", "date": "2025-10-26" },
+
+  { "id": "15", "name": "Egg White Scrambles",  "category": "Prepared",      "status": "Completed", "quantity": 19, "calories": 290, "expires": "2025-10-29", "date": "2025-10-28" },
+  { "id": "16", "name": "Burrito Bowls",        "category": "Prepared",      "status": "Completed", "quantity": 21, "calories": 700, "expires": "2025-10-29", "date": "2025-10-28" }
+]

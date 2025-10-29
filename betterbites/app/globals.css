@@ -1,17 +1,14 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +16,44 @@
   }
 }
 
+/* Body styling */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Prevent image grid lines from showing up */
+* {
+  box-sizing: border-box;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove black seams from repeating background pattern */
+.bg-food-pattern {
+  background-image: url('/backgrounds/food-background.png');
+  background-repeat: repeat;
+  background-size: contain; /* keeps pattern proportions */
+  background-position: top left;
+  background-color: #d9d9d9;
+  image-rendering: crisp-edges;
+  border: none;
+  -webkit-mask-image: linear-gradient(#000, #000);
+  mask-image: linear-gradient(#000, #000);
+}
+
+/* Headings */
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+}
+
+/* Smooth text */
+html, body {
+  -webkit-font-smoothing: antialiased;
 }
