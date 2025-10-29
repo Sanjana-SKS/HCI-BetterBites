@@ -28,7 +28,7 @@ export default function SideNav() {
       >
         {/* Dashboard link */}
         <Link
-          href="/home_page"
+          href="/"
           style={{
             display: "inline-flex",
             padding: "var(--sds-size-space-200, 8px)",
