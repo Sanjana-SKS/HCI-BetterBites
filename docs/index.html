@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BetterBites · Dashboard (Demo)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">BB</div>
+      <div class="title">
+        <h1>BetterBites</h1>
+        <p class="subtitle">Donation Inventory · Dashboard</p>
+      </div>
+    </div>
+    <div class="user">
+      <span class="username">Hi, Alex</span>
+      <img src="assets/avatar.png" alt="" class="avatar" />
+    </div>
+  </header>
+
+  <!-- Primary nav -->
+  <nav class="tabs" role="navigation" aria-label="Primary">
+    <a class="tab active" href="#" aria-current="page">Dashboard</a>
+    <span class="tab disabled" title="History handled by teammate" aria-disabled="true">History</span>
+  </nav>
+
+  <main class="page" id="main" role="main">
+    <!-- Filters -->
+    <section class="card filters" aria-labelledby="filters-heading">
+      <div class="card-head">
+        <h2 id="filters-heading">Filters</h2>
+        <div class="card-actions">
+          <button class="btn primary" id="openAddModalBtn" type="button">+ Add Donation</button>
+        </div>
+      </div>
+      <form id="filterForm" class="filter-grid">
+        <div class="field">
+          <label for="dateInput">Date</label>
+          <input id="dateInput" name="date" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect" name="category">
+            <option value="All">All</option>
+            <!-- options injected -->
+          </select>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" id="applyBtn">Apply</button>
+          <button type="button" class="btn" id="clearBtn">Clear</button>
+        </div>
+      </form>
+      <div class="helper">
+        Change <b>Date</b>/<b>Category</b> and click <b>Apply</b>. KPIs and table update.
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis" aria-label="Key Performance Indicators">
+      <article class="kpi card" aria-live="polite">
+        <div class="kpi-label">Total Items</div>
+        <div class="kpi-value" id="kpiTotal">—</div>
+      </article>
+      <article class="kpi card" aria-live="polite">
+        <div class="kpi-label">Donation Rate</div>
+        <div class="kpi-value" id="kpiSuccess">—</div>
+      </article>
+      <article class="kpi card" aria-live="polite">
+        <div class="kpi-label">Avg Quantity</div>
+        <div class="kpi-value" id="kpiAvg">—</div>
+      </article>
+    </section>
+
+    <!-- Table -->
+    <section class="card" aria-labelledby="table-heading">
+      <div class="card-head">
+        <h2 id="table-heading">Recent Donations</h2>
+        <div class="count"><span id="visibleCount">0</span> shown</div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="itemsTable">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Category</th>
+              <th scope="col">Status</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Calories</th>
+              <th scope="col">Expires</th>
+              <th scope="col">Date</th>
+              <th scope="col" class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- rows injected -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="emptyState" class="empty" hidden>
+        No results for the selected filters.
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Donation Modal -->
+  <div id="modalOverlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addHeading">
+      <div class="modal-head">
+        <h3 id="addHeading">Add Donation</h3>
+        <button class="icon-btn" id="closeAddModalBtn" aria-label="Close">×</button>
+      </div>
+      <form id="addForm" class="modal-form">
+        <div class="field">
+          <label for="itemName">Item</label>
+          <input id="itemName" name="itemName" type="text" placeholder="e.g., Bread Loaves" required />
+        </div>
+
+        <div class="field">
+          <label for="categoryAdd">Category</label>
+          <select id="categoryAdd" name="categoryAdd" required>
+            <!-- options injected (same as main categories) -->
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="quantityAdd">Quantity</label>
+          <input id="quantityAdd" name="quantityAdd" type="number" min="0" step="1" placeholder="e.g., 25" required />
+        </div>
+
+        <div class="field">
+          <label for="caloriesAdd">Calories (optional)</label>
+          <input id="caloriesAdd" name="caloriesAdd" type="number" min="0" step="1" placeholder="e.g., 300" />
+        </div>
+
+        <div class="field">
+          <label for="expiresAdd">Expiration</label>
+          <input id="expiresAdd" name="expiresAdd" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="statusAdd">Status</label>
+          <select id="statusAdd" name="statusAdd" required>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Flagged">Flagged</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="dateAdd">Donation Date</label>
+          <input id="dateAdd" name="dateAdd" type="date" required />
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn primary">Submit</button>
+          <button type="button" class="btn" id="cancelAddBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer class="footer">
+    <small>Demo data only · No backend · GitHub Pages ready</small>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
