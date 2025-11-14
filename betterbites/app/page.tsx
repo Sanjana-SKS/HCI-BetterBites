@@ -123,8 +123,8 @@ export default function DashboardPage() {
         <div className="brand">
           <div className="logo">BB</div>
           <div className="title">
-            <h1>BetterBites</h1>
-            <p className="subtitle">Donation Inventory · Dashboard</p>
+            {/* <h1>BetterBites</h1>
+            <p className="subtitle">Donation Inventory · Dashboard</p> */}
           </div>
         </div>
         <div className="user"><span className="username">Hi, Alex</span></div>
@@ -134,7 +134,7 @@ export default function DashboardPage() {
       <nav className="tabs" aria-label="Primary">
         <span className="tab active" aria-current="page">Dashboard</span>
         {/* Adjust this href to your teammate’s history route: e.g. /weekly-waste */}
-        <Link className="tab" href="/weekly-waste">History</Link>
+        {/* <Link className="tab" href="/weekly-waste">History</Link> */}
       </nav>
 
       <main className="page" role="main">
@@ -250,7 +250,7 @@ export default function DashboardPage() {
 
       {/* Styles (kept local so we don't depend on global CSS) */}
       <style jsx>{`
-        :global(body){margin:0;background:linear-gradient(180deg,#0b0f17,#0e1117);color:#e6edf3;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+        :global(body){margin:0;backgroundImage: "url('/backgrounds/food-background.png')" ; color:#e6edf3;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
         .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #232938;position:sticky;top:0;background:rgba(14,17,23,.8);backdrop-filter:blur(8px);z-index:10}
         .brand{display:flex;gap:12px;align-items:center}
         .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#7c3aed;color:#fff;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.35)}
