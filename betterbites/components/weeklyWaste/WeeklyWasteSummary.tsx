@@ -13,13 +13,7 @@ export default function WeeklyWasteSummary() {
   return (
     <div
       className="min-h-screen flex flex-col items-center"
-      style={{
-        backgroundImage: "url('/backgrounds/food-background.png')",
-        backgroundRepeat: "repeat",
-        backgroundSize: "auto",
-        backgroundPosition: "top left",
-        backgroundColor: "#D9D9D9",
-      }}
+  
     >
       {/* ───────────────────────── Page title ───────────────────────── */}
       <h1

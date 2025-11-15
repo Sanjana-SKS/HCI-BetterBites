@@ -19,6 +19,13 @@ export default function DetailedAnalyticsPage() {
     { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "11/01" },
   ];
 
+  // Mapping item names → dynamic routes
+  const itemRoutes: Record<string, string> = {
+    "Croissant Batch": "/analytics/detailed/croissant-batch",
+    "Cinnamon Rolls": "/items",  
+    Muffins: "/analytics/detailed/muffins",
+  };
+
   return (
     <div>
 
@@ -94,9 +101,11 @@ export default function DetailedAnalyticsPage() {
                   <Td>{r.donate}</Td>
                   <Td>{r.exp}</Td>
                   <Td>
-                    <Button size="sm" className="bg-[#6C63FF] text-white">
-                      View
-                    </Button>
+                    <Link href={itemRoutes[r.item] ?? "#"}>
+                      <Button size="sm" className="bg-[#6C63FF] text-white">
+                        View
+                      </Button>
+                    </Link>
                   </Td>
                 </tr>
               ))}
