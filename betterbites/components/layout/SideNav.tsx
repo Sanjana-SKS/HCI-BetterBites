@@ -66,7 +66,7 @@ export default function SideNav() {
             gap: "var(--sds-size-space-200, 8px)",
           }}
         >
-          <Image src="/icons/add-new.png" alt="Log Surplus Item" width={24} height={24} />
+          <Image src="/icons/add-new_2.png" alt="Log Surplus Item" width={24} height={24} />
           <span
             style={{
               color: "var(--sds-color-text-default-secondary, #757575)",
@@ -141,14 +141,7 @@ export default function SideNav() {
             Pickup
           </span>
         </Link> 
-
-
-
-
-
-
-
-        /////////
+       
       </div>
     </aside>
   );

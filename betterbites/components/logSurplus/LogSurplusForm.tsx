@@ -54,7 +54,7 @@ export default function LogSurplusForm() {
           paddingBottom: "40px",
           backgroundImage: "url('/backgrounds/food-background.png')",
           backgroundRepeat: "repeat",
-          backgroundSize: "auto",
+          backgroundSize: "350px",
           backgroundPosition: "top left",
           backgroundColor: "#D9D9D9",
         }}
