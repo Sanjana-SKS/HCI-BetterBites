@@ -3,9 +3,6 @@
 /* Tailwind v4 core */
 @import "tailwindcss";
 
-/* Animations for shadcn components */
-@import "tw-animate-css";
-
 /* Dark-mode helper from shadcn */
 @custom-variant dark (&:is(.dark *));
 
