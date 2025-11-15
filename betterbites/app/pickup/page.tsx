@@ -21,6 +21,8 @@ const charities = {
 
 export default function PickupPage() {
   const [charity, setCharity] = useState("");
+  const [pickupDate, setPickupDate] = useState("");
+  const [timeSlot, setTimeSlot] = useState("");
 
   return (
     <div
@@ -41,8 +43,7 @@ export default function PickupPage() {
       >
         Schedule Donation Pickup
       </h1>
-
-      {/* Charity Selection form */}
+      
       <div
         style={{
           width: "420px",
@@ -54,7 +55,7 @@ export default function PickupPage() {
           color: "#000"
         }}
       >
-        {/* Dropdown for selecting a charity */}
+    
         <label style={{ fontWeight: 600 }}>Choose a Charity</label>
         <select
           value={charity}
@@ -76,7 +77,6 @@ export default function PickupPage() {
           ))}
         </select>
 
-        {/* Special instructions for selected charity */}
         {charity && (
           <div
             style={{
@@ -90,8 +90,7 @@ export default function PickupPage() {
               textAlign: "left",
               color: "#000"
             }}
-          >
-            {/* Accepted donation types */}
+          > 
             <strong style={{ display: "block", marginBottom: 6 }}>Accepts:</strong>
             <ul style={{ marginLeft: 20 }}>
               {charities[charity].accepts.map((item, idx) => (
@@ -99,7 +98,6 @@ export default function PickupPage() {
               ))}
             </ul>
 
-            {/* Not allowed to be donated */}
             <strong style={{ display: "block", margin: "10px 0 6px" }}>
               Does NOT accept:
             </strong>
@@ -110,6 +108,42 @@ export default function PickupPage() {
             </ul>
           </div>
         )}
+
+    <label style={{ fontWeight: 600 }}>Pickup Date</label>
+        <input
+        type="date"
+        value={pickupDate}
+        onChange={(e) => setPickupDate(e.target.value)}
+        required
+        style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: 6,
+            border: "1px solid #ccc",
+        }}
+        />
+
+    <label style={{ fontWeight: 600 }}>Time Slot</label>
+        <select
+        value={timeSlot}
+        onChange={(e) => setTimeSlot(e.target.value)}
+        required
+        style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: 20,
+            border: "1px solid #ccc",
+            borderRadius: 6,
+        }}
+>
+    <option value="">-- Select time slot --</option>
+    <option value="9-11AM">9:00-11:00 AM</option>
+    <option value="11AM-1PM">11:00-1:00 PM</option>
+    <option value="1-3PM">1:00-3:00 PM</option>
+    <option value="3-5PM">3:00-5:00 PM</option>
+    <option value="5-7PM">5:00-7:00 PM</option>
+</select>
       </div>
     </div>
   );
