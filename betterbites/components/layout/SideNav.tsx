@@ -55,6 +55,35 @@ export default function SideNav() {
           </span>
         </Link>
 
+        {/* Log Surplus Item link */}
+        <Link
+          href="/log-surplus-item"
+          style={{
+            display: "inline-flex",
+            padding: "var(--sds-size-space-200, 8px)",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "var(--sds-size-space-200, 8px)",
+          }}
+        >
+          <Image src="/icons/add-new.png" alt="Log Surplus Item" width={24} height={24} />
+          <span
+            style={{
+              color: "var(--sds-color-text-default-secondary, #757575)",
+              textAlign: "center",
+              fontFamily:
+                "var(--sds-typography-body-font-family, Roboto, sans-serif)",
+              fontSize: "var(--sds-typography-body-size-small, 14px)",
+              fontStyle: "normal",
+              fontWeight:
+                "var(--sds-typography-body-font-weight-strong, 600)",
+              lineHeight: "100%",
+            }}
+          >
+            Log Item
+          </span>
+        </Link>
+
         {/* History link */}
         <Link
           href="/weekly-waste"
