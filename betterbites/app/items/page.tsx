@@ -1,130 +1,128 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
-const data = [
-  { week: "Week 1", quantity: 12, waste: 4 },
-  { week: "Week 2", quantity: 10, waste: 3 },
-  { week: "Week 3", quantity: 14, waste: 5 },
-  { week: "Week 4", quantity: 11, waste: 4 },
+const timelineData = [
+  { week: "Week 1", qty: 10, waste: 5 },
+  { week: "Week 2", qty: 12, waste: 6 },
+  { week: "Week 3", qty: 14, waste: 7 },
+  { week: "Week 4", qty: 12, waste: 6 },
 ];
 
 export default function ItemDetailPage() {
+  const itemName = "Cinnamon Rolls";
+
   return (
-    <div className="min-h-screen w-full bg-food-pattern p-10 flex flex-col gap-8">
+    <div className="min-h-screen w-full bg-food-pattern">
+      <div className="max-w-6xl mx-auto pb-16">
+        {/* top bar */}
+        <div className="flex items-center justify-between pt-6 mb-4">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/analytics/detailed"
+              className="text-black font-medium hover:underline flex items-center gap-1"
+            >
+              ← <span>Back</span>
+            </Link>
 
-      {/* Top: Back + Title + Category */}
-      <div className="flex justify-between items-center w-full">
-        <Link href="/analytics/detailed" className="text-lg underline">
-          ← Back
-        </Link>
+            <span className="inline-flex items-center rounded-full bg-[#E5CCFF] px-4 py-1 text-xs font-semibold text-[#2C2C2C]">
+              Item: {itemName}
+            </span>
+          </div>
 
-        <h1 className="text-5xl font-bold text-center flex-1 -ml-10">Item Detail</h1>
+          <span className="inline-flex items-center rounded-full bg-[#E5CCFF] px-4 py-1 text-xs font-semibold text-[#2C2C2C]">
+            Category: Pastries
+          </span>
+        </div>
 
-        <span className="px-4 py-1 bg-purple-200 rounded-full text-sm font-semibold">
-          Category: Pastries
-        </span>
-      </div>
+        {/* title */}
+        <h1 className="text-4xl font-bold text-center mb-10">Item Detail</h1>
 
-      {/* Subheading */}
-      <div className="flex justify-center -mt-4">
-        <span className="px-4 py-1 bg-purple-100 rounded-full text-sm font-semibold">
-          Item: Cinnamon Rolls
-        </span>
-      </div>
+        {/* stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+          <StatCard title="Average Quantity (4 weeks)" value="12" />
+          <StatCard title="Waste Rate" value="50%" />
+          <StatCard title="Donation Rate" value="50%" />
+          <StatCard title="Expiration Risk" value="High" />
+        </div>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-4 gap-6 w-full">
-        {/* Averge Qty */}
-        <Card className="h-48 flex flex-col justify-between shadow-md bg-white">
+        {/* chart */}
+        <Card className="bg-white/95 shadow-md border border-gray-200 mb-8">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              Average Quantity (4 weeks)
-            </CardTitle>
+            <CardTitle>Quantity &amp; Waste Timeline</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold">12</p>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={timelineData}>
+                  <XAxis dataKey="week" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Bar dataKey="qty" fill="#6C63FF" barSize={18} radius={[6,6,0,0]} />
+                  <Bar dataKey="waste" fill="#B39DDB" barSize={18} radius={[6,6,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Waste Rate */}
-        <Card className="h-48 flex flex-col justify-between shadow-md bg-white">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              Waste Rate
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold">50%</p>
-          </CardContent>
-        </Card>
+        {/* notes */}
+        <section className="mb-10">
+          <p className="mb-2 text-base font-medium text-gray-900">Notes</p>
+          <div className="rounded-lg border border-gray-200 bg-white/95 px-6 py-4 text-sm text-gray-800">
+            <ul className="list-disc space-y-1 pl-5">
+              <li>Frequently expires on Tuesday due to low morning demand.</li>
+              <li>Consider smaller batch size on weekdays.</li>
+            </ul>
+          </div>
+        </section>
 
-        {/* Donation Rate */}
-        <Card className="h-48 flex flex-col justify-between shadow-md bg-white">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              Donation Rate
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold">50%</p>
-          </CardContent>
-        </Card>
+        {/* bottom buttons */}
+        <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
+          <PrimaryButton>Compare Weeks</PrimaryButton>
 
-        {/* Expiration Risk */}
-        <Card className="h-48 flex flex-col justify-between shadow-md bg-white">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              Expiration Risk
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold">High</p>
-          </CardContent>
-        </Card>
+          
+          <Link href="/logs/cinammon-rolls">
+            <PrimaryButton>View Logs</PrimaryButton>
+          </Link>
+
+          <PrimaryButton>Export Report</PrimaryButton>
+        </div>
       </div>
-
-      {/* Chart Section */}
-      <Card className="w-full h-[420px] bg-white shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold">
-            Quantity & Waste Timeline
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent className="w-full h-[300px] mt-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data}>
-              <XAxis dataKey="week" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="quantity" name="Quantity" />
-              <Bar dataKey="waste" name="Waste" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* Bottom Buttons */}
-      <div className="flex justify-center gap-6 mt-4">
-        <Button className="px-6 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-lg">
-          Edit Item
-        </Button>
-
-        <Link href="/logs/cinammon-rolls">
-          <Button className="px-6 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-lg">
-            View Logs
-          </Button>
-        </Link>
-
-        <Button className="px-6 py-3 rounded-full bg-red-500 hover:bg-red-600 text-white text-lg">
-          Delete Item
-        </Button>
-      </div>
-
     </div>
+  );
+}
+
+function StatCard({ title, value }: { title: string; value: string }) {
+  return (
+    <Card className="bg-white/95 shadow-md border border-gray-200">
+      <CardContent className="flex h-44 flex-col justify-between p-6">
+        <p className="text-lg font-semibold text-gray-900 mb-2">{title}</p>
+        <p className="text-3xl font-semibold text-gray-900">{value}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PrimaryButton({ children }: { children: React.ReactNode }) {
+  return (
+    <Button className="rounded-2xl bg-[#9346FF] px-12 py-6 text-lg font-normal text-white shadow-md hover:bg-[#7b33e6]">
+      {children}
+    </Button>
   );
 }
