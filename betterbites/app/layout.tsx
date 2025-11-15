@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import SideNav from "@/components/layout/SideNav";
 import TopNav from "@/components/layout/TopNav";
-
-
 
 export default function RootLayout({
   children,
@@ -12,25 +9,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-sans bg-white text-gray-900 antialiased">
-        {/* Full page container */}
+      <body className="font-sans text-gray-900 antialiased">
+
+        {/* page container*/}
         <div className="flex">
-          {/* Sidebar (always visible, left side) */}
-          <div className="relative z-30">
-            <SideNav />
-          </div>
 
-          {/* Main content area */}
-          <div className="flex-1 relative">
-            {/* Top Nav overlays slightly on sidebar */}
-            <div className="relative z-40">
-              <TopNav />
-            </div>
+          {/* side nav */}
+          <SideNav />
 
-            {/* Page content */}
-            <main className="pt-[107px] pl-6 pr-6 bg-[#D9D9D9]/20 min-h-screen">
+          <div className="flex-1 ml-[117px] min-h-screen bg-food-pattern bg-cover bg-center">
+
+            {/* top nav */}
+            <TopNav />
+
+            {/* page content */}
+            <main className="max-w-6xl mx-auto pt-[140px] pb-20 px-6">
               {children}
             </main>
+
           </div>
         </div>
       </body>

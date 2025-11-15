@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function WeeklyWasteSummary() {
   //harcode data
   const totalItems = 63;
@@ -112,12 +114,34 @@ export default function WeeklyWasteSummary() {
           </p>
         </div>
 
+        {/* ─────────────── Button: Detailed Analytics ─────────────── */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            maxWidth: "920px",
+            width: "100%",
+            paddingLeft: "4px",
+          }}
+        >
+          <Link
+            href="/analytics/detailed"
+            className="px-6 py-3 rounded-full text-white text-sm font-medium shadow-md transition-all"
+            style={{
+              backgroundColor: "#6C63FF",
+              boxShadow: "0px 2px 4px rgba(0,0,0,0.25)",
+            }}
+          >
+            View Detailed Analytics →
+          </Link>
+        </div>
+
         {/* ─────────────── Download Icon (aligned right) ─────────────── */}
         <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            maxWidth: "920px", 
+            maxWidth: "920px",
             width: "100%",
             paddingRight: "16px",
             paddingBottom: "40px",

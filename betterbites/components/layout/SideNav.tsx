@@ -17,7 +17,7 @@ export default function SideNav() {
         backgroundColor: "#FAF5F5",
         borderRight: "1px solid #E5E7EB",
       }}
-      className="fixed top-0 left-0 z-30"
+      className="fixed top-0 left-0 z-30 flex flex-col items-center w-[117px] h-screen bg-[#FAF5F5] border-r"
     >
       <div
         className="flex flex-col items-center"
