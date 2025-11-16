@@ -2,187 +2,246 @@
 
 import {useState} from "react";
 
-const charities = {
+const charities={
   "North Texas Food Bank":{
-    accepts:["Short-dated items","Produce + perishables","Overruns / mislabeled items (properly labeled)",],
-    rejects:["Damaged packaging","Expired baby food","Ice cream","Unlabeled items",],
+    accepts:["Short-dated items","Produce + perishables","Overruns / mislabeled items (properly labeled)"],
+    rejects:["Damaged packaging","Expired baby food","Ice cream","Unlabeled items"],
   },
 
   "Crossroads Community Services":{
-    accepts:["Shelf-stable cans", "Dried goods (pasta, rice, beans)", "Peanut butter"],
-    rejects:["Refrigerated items","Expired food","Leftovers or homemade food","Glass containers",],
+    accepts:["Shelf-stable cans","Dried goods (pasta, rice, beans)","Peanut butter"],
+    rejects:["Refrigerated items","Expired food","Leftovers or homemade food","Glass containers"],
   },
 
   "Feeding America":{
-    accepts:["Shelf-stable canned foods", "Rice / pasta", "Peanut butter", "Some household items"],
-    rejects:["Perishables", "Expired food", "Leftovers", "Damaged packaging", "Glass containers"],
+    accepts:["Shelf-stable canned foods","Rice / pasta","Peanut butter","Some household items"],
+    rejects:["Perishables","Expired food","Leftovers","Damaged packaging","Glass containers"],
   },
 };
 
-export default function PickupPage() {
-  const [charity, setCharity]=useState("");
-  const [pickupDate, setPickupDate]=useState("");
-  const [timeSlot, setTimeSlot]=useState("");
-  const [pickupSpecialInstructions, setpickupSpecialInstructions]=useState("");
+export default function PickupPage(){
+  const [charity,setCharity]=useState("");
+  const [pickupDate,setPickupDate]=useState("");
+  const [timeSlot,setTimeSlot]=useState("");
+  const [pickupSpecialInstructions,setpickupSpecialInstructions]=useState("");
+  const [popupVisible,setpopupVisible]=useState(false);
 
-  return (
+  const resetform=()=>{
+    setCharity("");
+    setPickupDate("");
+    setpickupSpecialInstructions("");
+    setTimeSlot("");
+  };
+
+  const onFormSubmit=(e)=>{
+    e.preventDefault();
+    setpopupVisible(true);
+    resetform();
+  };
+
+  return(
     <div style={{fontFamily:"Georgia,serif"}}>
-    <div
-      style={{
-        backgroundColor:"#faf7f2",
-        minHeight:"100vh",
-        paddingTop:"60px",
-      }}
-    >
-      <h1
-        style={{
-          textAlign:"center",
-          fontSize:"32px",
-          fontWeight:"bold",
-          marginBottom:"25px",
-          color:"#000"
-        }}
-      >
-        Schedule Donation Pickup
-      </h1>
-      
       <div
         style={{
-          width:"420px",
-          margin:"0 auto",
-          background:"white",
-          padding:"40px",
-          borderRadius:"10px",
-          boxShadow:"0px 2px 10px rgba(0,0,0,0.15)",
-          color:"#000"
+          backgroundColor:"#faf7f2",
+          minHeight:"100vh",
+          paddingTop:"60px",
         }}
       >
-    
-        <label style={{fontWeight:600}}>Choose a Charity</label>
-        <select
-          value={charity}
-          onChange={(e)=>setCharity(e.target.value)}
-          required
+        <h1
           style={{
-            width:"100%",
-            padding:"10px",
-            marginBottom:20,
-            border:"1px solid #ccc",
-            borderRadius:"10px",
-            fontSize: 19
+            textAlign:"center",
+            fontSize:"32px",
+            fontWeight:"bold",
+            marginBottom:"25px",
+            color:"#000"
           }}
         >
-          <option value="">-- Select one --</option>
-          {Object.keys(charities).map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
+          Schedule Donation Pickup
+        </h1>
 
-        {charity && (
-          <div
+        <form
+          onSubmit={onFormSubmit}
+          style={{
+            width:"420px",
+            margin:"0 auto",
+            background:"white",
+            padding:"40px",
+            borderRadius:"10px",
+            boxShadow:"0px 2px 10px rgba(0,0,0,0.15)",
+            color:"#000"
+          }}
+        >
+
+          <label style={{fontWeight:600}}>Choose a Charity</label>
+          <select
+            value={charity}
+            onChange={(e)=>setCharity(e.target.value)}
+            required
             style={{
-              backgroundColor:"#DAB1DA",
-              padding:"20px",
-              marginBottom:12,
+              width:"100%",
+              padding:"10px",
+              marginBottom:20,
+              border:"1px solid #ccc",
               borderRadius:"10px",
-              border:"1px solid #f3d074",
-              fontSize:19,
-              lineHeight:1.25,
-              textAlign:"left",
-              color:"#000"
+              fontSize:19
             }}
-          > 
-            <strong style={{display:"block",marginBottom:6}}>Accepts:</strong>
-            <ul style={{ marginLeft: 20 }}>
-              {charities[charity].accepts.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
+          >
+            <option value="">-- Select one --</option>
+            {Object.keys(charities).map((name)=>(
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
 
-            <strong style={{display:"block",margin:"10px 0 6px" }}>
-              Does NOT accept:
-            </strong>
-            <ul style={{marginLeft: 20 }}>
-              {charities[charity].rejects.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
+          {charity&&(
+            <div
+              style={{
+                backgroundColor:"#DAB1DA",
+                padding:"20px",
+                marginBottom:12,
+                borderRadius:"10px",
+                border:"1px solid #f3d074",
+                fontSize:19,
+                lineHeight:1.25,
+                textAlign:"left",
+                color:"#000"
+              }}
+            >
+              <strong style={{display:"block",marginBottom:6}}>Accepts:</strong>
+              <ul style={{marginLeft:20}}>
+                {charities[charity].accepts.map((item,idx)=>(
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+
+              <strong style={{display:"block",margin:"10px 0 6px"}}>Does NOT accept:</strong>
+              <ul style={{marginLeft:20}}>
+                {charities[charity].rejects.map((item,idx)=>(
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <label style={{fontWeight:600}}>Pickup Date</label>
+          <input
+            type="date"
+            value={pickupDate}
+            onChange={(e)=>setPickupDate(e.target.value)}
+            required
+            style={{
+              width:"100%",
+              padding:"10px",
+              marginBottom:"20px",
+              borderRadius:"10px",
+              border:"1px solid #ccc",
+              fontSize:19
+            }}
+          />
+
+          <label style={{fontWeight:600}}>Time Slot</label>
+          <select
+            value={timeSlot}
+            onChange={(e)=>setTimeSlot(e.target.value)}
+            required
+            style={{
+              width:"100%",
+              padding:"10px",
+              marginBottom:20,
+              border:"1px solid #ccc",
+              borderRadius:"10px",
+              fontSize:19
+            }}
+          >
+            <option value="">-- Select time slot --</option>
+            <option value="9-11AM">9:00-11:00 AM</option>
+            <option value="11AM-1PM">11:00-1:00 PM</option>
+            <option value="1-3PM">1:00-3:00 PM</option>
+            <option value="3-5PM">3:00-5:00 PM</option>
+            <option value="5-7PM">5:00-7:00 PM</option>
+          </select>
+
+          <label style={{fontWeight:600}}>Notes</label>
+          <textarea
+            value={pickupSpecialInstructions}
+            onChange={(e)=>setpickupSpecialInstructions(e.target.value)}
+            placeholder="Delivery Notes?"
+            style={{
+              width:"100%",
+              padding:"10px",
+              marginBottom:20,
+              border:"2px solid #ccc",
+              borderRadius:"10px",
+              height:80,
+              fontSize:19
+            }}
+          />
+
+          <button
+            type="submit"
+            style={{
+              width:"100%",
+              padding:"10px",
+              marginBottom:20,
+              backgroundColor:"#FFAC1C",
+              border:"none",
+              borderRadius:"10px",
+              fontSize:20,
+              cursor:"pointer",
+            }}
+          >
+            Confirm Pickup
+          </button>
+        </form>
+
+        {popupVisible&&(
+          <div
+            onClick={()=>setpopupVisible(false)}
+            style={{
+              position:"fixed",
+              top:0,
+              left:0,
+              width:"100vw",
+              height:"100vh",
+              background:"rgba(0,0,0,0.5)",
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+            }}
+          >
+            <div
+              onClick={(e)=>e.stopPropagation()}
+              style={{
+                background:"#FFFFFF",
+                borderRadius:"20px",
+                textAlign:"center",
+                padding:"30px",
+                width:"300px",
+                color:"#000"
+              }}
+            >
+              <h2>Your Pickup Is Scheduled!</h2>
+
+              <button
+                onClick={()=>setpopupVisible(false)}
+                style={{
+                  marginTop:20,
+                  border:"none",
+                  fontSize:20,
+                  background:"#FFAC1C",
+                  padding:"10px 20px",
+                  borderRadius:"10px",
+                  cursor:"pointer",
+                  color:"#000"
+                }}
+              >
+                Close
+              </button>
+            </div>
           </div>
         )}
 
-    <label style={{fontWeight: 600}}>Pickup Date</label>
-        <input
-        type="date"
-        value={pickupDate}
-        onChange={(e)=>setPickupDate(e.target.value)}
-        required
-        style={{
-            width:"100%",
-            padding:"10px",
-            marginBottom:"20px",
-            borderRadius:"10px",
-            border:"1px solid #ccc",
-            fontSize: 19
-        }}
-        />
-
-    <label style={{fontWeight: 600}}>Time Slot</label>
-        <select
-        value={timeSlot}
-        onChange={(e)=>setTimeSlot(e.target.value)}
-        required
-        style={{
-            width:"100%",
-            padding:"10px",
-            marginBottom:20,
-            border:"1px solid #ccc",
-            borderRadius:"10px",
-            fontSize: 19
-        }}
->
-    <option value="">-- Select time slot --</option>
-    <option value="9-11AM">9:00-11:00 AM</option>
-    <option value="11AM-1PM">11:00-1:00 PM</option>
-    <option value="1-3PM">1:00-3:00 PM</option>
-    <option value="3-5PM">3:00-5:00 PM</option>
-    <option value="5-7PM">5:00-7:00 PM</option>
-</select>
-
-<label style={{fontWeight:600}}>Notes</label>
-<textarea
-    value={pickupSpecialInstructions}
-    onChange={(e)=> setpickupSpecialInstructions(e.target.value)}
-    placeholder="Delivery Notes?"
-    style={{
-        width:"100%",
-        padding:"10px",
-        marginBottom:20,
-        border:"2px solid #ccc",
-        borderRadius:"10px",
-        height:80,
-        fontSize: 19
-    }}
-/>
-
-    <button
-        type="submit"
-        style={{
-            width:"100%",
-            padding:"10px",
-            marginBottom:20,
-            backgroundColor:"#FFAC1C",
-            border:"none",
-            borderRadius:"10px",
-            fontSize:20,
-            cursor:"pointer",
-        }}
-
-    > Confirm Pickup </button>
-
       </div>
-    </div>
     </div>
   );
 }
