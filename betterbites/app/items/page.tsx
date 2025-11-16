@@ -134,7 +134,7 @@ export default function ItemDetailPage() {
             Compare Weeks
           </PrimaryButton>
 
-          <Link href="/item-logs">
+          <Link href="/item-logs/cinammon-rolls">
             <PrimaryButton>View Logs</PrimaryButton>
           </Link>
 

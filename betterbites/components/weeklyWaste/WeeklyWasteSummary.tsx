@@ -155,23 +155,7 @@ export default function WeeklyWasteSummary() {
         <WeekSelector selectedWeek={selectedWeek} onChange={(w) => setSelectedWeek(w)} weeks={Object.keys(weeklyData)} />
         <CategorySelector selected={selectedCategory} onChange={(c) => setSelectedCategory(c)} categories={allCategories} />
       </div>
-
-      {/* Compare Weeks button */}
-      <div style={{ marginBottom: "24px", display: "flex", justifyContent: "center", width: "100%" }}>
-        <button
-          onClick={() => router.push("/weekly-waste/compare")}
-          className="rounded-xl text-sm font-medium shadow-md transition-all"
-          style={{
-            backgroundColor: "#6C63FF",
-            color: "#FFFFFF",
-            padding: "8px 20px",
-            boxShadow: "0px 2px 4px rgba(0,0,0,0.25)",
-          }}
-        >
-          Compare Weeks
-        </button>
-      </div>
-
+      
       {/* ───────────────────────── Main content wrapper ───────────────────────── */}
       <div
         ref={dashboardRef}

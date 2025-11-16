@@ -45,7 +45,7 @@ export default function PickupPage(){
 
 
   return(
-    <div style={{fontFamily:"Georgia,serif"}}>
+    <div style={{fontFamily:"Roboto, sans-serif"}}>
       <div
         style={{
           backgroundColor:"#faf7f2",
