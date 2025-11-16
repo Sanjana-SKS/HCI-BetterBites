@@ -33,11 +33,12 @@ export default function PickupPage(){
     setTimeSlot("");
   };
 
-  const onFormSubmit=(e)=>{
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setpopupVisible(true);
     resetform();
   };
+
 
   return(
     <div style={{fontFamily:"Georgia,serif"}}>
