@@ -2,20 +2,24 @@
 import React from "react";
 import {useState} from "react";
 
-const charities={
-  "North Texas Food Bank":{
-    accepts:["Short-dated items","Produce + perishables","Overruns / mislabeled items (properly labeled)"],
-    rejects:["Damaged packaging","Expired baby food","Ice cream","Unlabeled items"],
+const charities: Record<
+  string,
+  {
+    accepts: string[];
+    rejects: string[];
+  }
+> = {
+  "North Texas Food Bank": {
+    accepts: [...],
+    rejects: [...],
   },
-
-  "Crossroads Community Services":{
-    accepts:["Shelf-stable cans","Dried goods (pasta, rice, beans)","Peanut butter"],
-    rejects:["Refrigerated items","Expired food","Leftovers or homemade food","Glass containers"],
+  "Crossroads Community Services": {
+    accepts: [...],
+    rejects: [...],
   },
-
-  "Feeding America":{
-    accepts:["Shelf-stable canned foods","Rice / pasta","Peanut butter","Some household items"],
-    rejects:["Perishables","Expired food","Leftovers","Damaged packaging","Glass containers"],
+  "Feeding America": {
+    accepts: [...],
+    rejects: [...],
   },
 };
 
