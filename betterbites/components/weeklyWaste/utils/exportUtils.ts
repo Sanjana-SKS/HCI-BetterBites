@@ -12,10 +12,10 @@ export async function exportMultiPagePDF(
     allowTaint: true,
 
     onclone(doc) {
-      doc.querySelectorAll("*").forEach((el) => {
-        // Safe lookup — prevents TS error
+      doc.querySelectorAll("*").forEach((node) => {
+        const el = node as HTMLElement; // safe cast
         const cs = doc.defaultView?.getComputedStyle(el);
-        if (!cs) return; // skip if no computed style available
+        if (!cs) return;
 
         const props = [
           "color",
@@ -31,12 +31,10 @@ export async function exportMultiPagePDF(
           const value = cs[prop as any];
 
           if (value && typeof value === "string" && value.includes("lab(")) {
-            // If it's a background color → fallback to white
             if (prop === "backgroundColor") {
-              (el.style as any)[prop] = "#ffffff";
+              el.style[prop as any] = "#ffffff";
             } else {
-              // Else use black
-              (el.style as any)[prop] = "#000000";
+              el.style[prop as any] = "#000000";
             }
           }
         });
@@ -57,11 +55,9 @@ export async function exportMultiPagePDF(
   let heightLeft = imgHeight;
   let position = 0;
 
-  // First page
   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
   heightLeft -= pageHeight;
 
-  // Additional pages
   while (heightLeft > 0) {
     position = heightLeft - imgHeight;
     pdf.addPage();
