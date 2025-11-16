@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -139,7 +139,7 @@ function buildWeeklyQuantitySeries(items: WasteItem[], weekStartStr: string) {
   return { qtyPerDay, maxQty };
 }
 
-export default function CompareWeeksPage() {
+function CompareWeeksPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -332,7 +332,7 @@ export default function CompareWeeksPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/95 shadow-md border border-gray-200">
+        <Card className="bg白/95 shadow-md border border-gray-200">
           <CardHeader>
             <CardTitle className="text-base">
               {weekB ? formatWeekLabel(weekB) : "Select Week B"}
@@ -371,12 +371,9 @@ export default function CompareWeeksPage() {
             }
 
             const chartHeight = 140; // px
-
-            // Choose a nice rounded max for the axis (multiples of 50)
             let maxTick = Math.ceil(maxQtyRaw / 50) * 50;
             if (maxTick === 0) maxTick = 50;
             const midTick = maxTick / 2;
-
             const minBarHeight = 6;
             const usableHeight = chartHeight - minBarHeight;
 
@@ -398,7 +395,6 @@ export default function CompareWeeksPage() {
                       className="flex"
                       style={{ height: chartHeight }}
                     >
-                      {/* Vertical label */}
                       <div className="flex items-center">
                         <span
                           className="font-semibold text-[11px] text-gray-700"
@@ -410,7 +406,6 @@ export default function CompareWeeksPage() {
                           Quantity
                         </span>
                       </div>
-                      {/* Tick numbers */}
                       <div className="ml-2 flex flex-col justify-between text-[10px] text-gray-500">
                         <span>{maxTick}</span>
                         <span>{midTick}</span>
@@ -434,11 +429,9 @@ export default function CompareWeeksPage() {
                           "Sun",
                         ][i];
 
-                        // Ensure every day has at least a visible bar
                         const scaledHeight =
                           maxTick === 0 ? 0 : (qty / maxTick) * usableHeight;
                         const barHeight = minBarHeight + scaledHeight;
-
                         const isZero = qty === 0;
 
                         return (
@@ -446,11 +439,9 @@ export default function CompareWeeksPage() {
                             key={i}
                             className="flex flex-col items-center justify-end gap-1 h-full"
                           >
-                            {/* Quantity number ABOVE bar */}
                             <span className="text-[10px] text-gray-600">
                               {qty}
                             </span>
-                            {/* Bar */}
                             <div
                               className="w-[10px] rounded-t-md"
                               style={{
@@ -460,7 +451,6 @@ export default function CompareWeeksPage() {
                                   : "#4b5563",
                               }}
                             />
-                            {/* Day label BELOW bar */}
                             <span className="font-semibold text-[11px] text-gray-700">
                               {dayLabel}
                             </span>
@@ -570,5 +560,38 @@ export default function CompareWeeksPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+/* helpers */
+function fmt(n: number) {
+  return new Intl.NumberFormat().format(n);
+}
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function dateAddDays(iso: string, n: number) {
+  const d = new Date(iso + "T00:00:00");
+  d.setDate(d.getDate() + n);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function latestDateFromData(arr: WasteItem[]) {
+  if (!arr.length) return null;
+  return arr.map((x) => x.date).sort().reverse()[0] ?? null;
+}
+
+/* ✅ Default export wrapped in Suspense (fixes Vercel build error) */
+export default function CompareWeeksPage() {
+  return (
+    <Suspense fallback={<p className="text-sm text-gray-600">Loading comparison…</p>}>
+      <CompareWeeksPageInner />
+    </Suspense>
   );
 }
