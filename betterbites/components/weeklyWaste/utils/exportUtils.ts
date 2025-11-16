@@ -1,16 +1,21 @@
-// utils/exportUtils.ts
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-export async function exportMultiPagePDF(element: HTMLElement, filename = "export.pdf") {
+export async function exportMultiPagePDF(
+  element: HTMLElement,
+  filename = "export.pdf"
+) {
   const canvas = await html2canvas(element, {
     scale: 2,
     useCORS: true,
     backgroundColor: "#ffffff",
     allowTaint: true,
+
     onclone(doc) {
       doc.querySelectorAll("*").forEach((el) => {
-        const cs = doc.defaultView.getComputedStyle(el);
+        // Safe lookup — prevents TS error
+        const cs = doc.defaultView?.getComputedStyle(el);
+        if (!cs) return; // skip if no computed style available
 
         const props = [
           "color",
@@ -24,10 +29,15 @@ export async function exportMultiPagePDF(element: HTMLElement, filename = "expor
 
         props.forEach((prop) => {
           const value = cs[prop as any];
+
           if (value && typeof value === "string" && value.includes("lab(")) {
-            // choose fallback based on property type
-            if (prop === "backgroundColor") el.style[prop] = "#ffffff";
-            else el.style[prop] = "#000000";
+            // If it's a background color → fallback to white
+            if (prop === "backgroundColor") {
+              (el.style as any)[prop] = "#ffffff";
+            } else {
+              // Else use black
+              (el.style as any)[prop] = "#000000";
+            }
           }
         });
       });
@@ -35,7 +45,6 @@ export async function exportMultiPagePDF(element: HTMLElement, filename = "expor
   });
 
   const imgData = canvas.toDataURL("image/png");
-
 
   const pdf = new jsPDF("p", "mm", "a4");
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -48,10 +57,11 @@ export async function exportMultiPagePDF(element: HTMLElement, filename = "expor
   let heightLeft = imgHeight;
   let position = 0;
 
-  
+  // First page
   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
   heightLeft -= pageHeight;
 
+  // Additional pages
   while (heightLeft > 0) {
     position = heightLeft - imgHeight;
     pdf.addPage();
