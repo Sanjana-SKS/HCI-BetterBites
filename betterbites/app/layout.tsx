@@ -2,6 +2,15 @@ import "./globals.css";
 import SideNav from "@/components/layout/SideNav";
 import TopNav from "@/components/layout/TopNav";
 
+export const metadata = {
+  title: "BetterBites",
+  description: "Eat smart. Waste less.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/favicon.png",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
