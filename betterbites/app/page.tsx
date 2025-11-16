@@ -112,13 +112,17 @@ export default function DashboardPage() {
 
   return (
     <div>
+
       <header className="topbar">
         <div className="brand">
-          <div className="logo">BB</div>
-          <div className="title"></div>
+          <div className="title">
         </div>
-        <div className="user"><span className="username">Hi, Alex</span></div>
-      </header>
+        <div className="user">
+      <span className="username">Hi, Alex</span>
+    </div>
+  </div>
+</header>
+
 
       <nav className="tabs" aria-label="Primary">
         <span className="tab active" aria-current="page">Dashboard</span>
@@ -271,7 +275,12 @@ export default function DashboardPage() {
   .subtitle{margin:2px 0 0 0;color:#666;font-size:12px}
 
   .user{display:flex;gap:10px;align-items:center}
-  .username{color:#666}
+  .username{
+  color:#666;
+  font-size:32px;
+  font-weight:600;
+  }
+
 
   .tabs{
     display:flex;
