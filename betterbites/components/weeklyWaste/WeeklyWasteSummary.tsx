@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import WeekSelector from "./WeekSelector";
 import CategorySelector from "./CategorySelector";
 import CategoryPieChart from "./charts/CategoryPieChart";
@@ -90,6 +91,7 @@ const weeklyData: Record<
 const allCategories = ["All Categories", "Pastries", "Dairy", "Bread", "Produce", "Other"];
 
 export default function WeeklyWasteSummary() {
+  const router = useRouter();
   const defaultWeek = Object.keys(weeklyData)[0];
   const [selectedWeek, setSelectedWeek] = useState<WeekKey>(defaultWeek);
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
@@ -149,9 +151,25 @@ export default function WeeklyWasteSummary() {
       </h1>
 
       {/* Week + Category selectors */}
-      <div style={{ marginBottom: "24px", display: "flex", gap: 16, alignItems: "center" }}>
+      <div style={{ marginBottom: "16px", display: "flex", gap: 16, alignItems: "center" }}>
         <WeekSelector selectedWeek={selectedWeek} onChange={(w) => setSelectedWeek(w)} weeks={Object.keys(weeklyData)} />
         <CategorySelector selected={selectedCategory} onChange={(c) => setSelectedCategory(c)} categories={allCategories} />
+      </div>
+
+      {/* Compare Weeks button */}
+      <div style={{ marginBottom: "24px", display: "flex", justifyContent: "center", width: "100%" }}>
+        <button
+          onClick={() => router.push("/weekly-waste/compare")}
+          className="rounded-xl text-sm font-medium shadow-md transition-all"
+          style={{
+            backgroundColor: "#6C63FF",
+            color: "#FFFFFF",
+            padding: "8px 20px",
+            boxShadow: "0px 2px 4px rgba(0,0,0,0.25)",
+          }}
+        >
+          Compare Weeks
+        </button>
       </div>
 
       {/* ───────────────────────── Main content wrapper ───────────────────────── */}
