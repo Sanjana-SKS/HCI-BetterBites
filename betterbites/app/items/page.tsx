@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -16,6 +17,8 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
+import { isoAddDays } from "../../components/weeklyWaste/utils/dateUtils";
+
 
 const timelineData = [
   { week: "Week 1", qty: 10, waste: 5 },
@@ -25,7 +28,30 @@ const timelineData = [
 ];
 
 export default function ItemDetailPage() {
+  const router = useRouter();
+
   const itemName = "Cinnamon Rolls";
+
+  // For now we’ll use a representative ISO date for this item.
+  // In a real app this would come from data for the selected item.
+  const itemDate = "2025-10-27"; // YYYY-MM-DD
+  const previousWeek = isoAddDays(itemDate, -7);
+
+  const handleCompareWeeks = () => {
+    router.push(
+      `/weekly-waste/compare?weekA=${encodeURIComponent(
+        itemDate
+      )}&weekB=${encodeURIComponent(previousWeek)}`
+    );
+  };
+
+  const handleExportReport = () => {
+    router.push(
+      `/weekly-waste/export?weekA=${encodeURIComponent(
+        itemDate
+      )}&weekB=${encodeURIComponent(previousWeek)}`
+    );
+  };
 
   return (
     <div className="min-h-screen w-full bg-food-pattern">
@@ -73,8 +99,18 @@ export default function ItemDetailPage() {
                   <XAxis dataKey="week" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} />
                   <Tooltip />
-                  <Bar dataKey="qty" fill="#6C63FF" barSize={18} radius={[6,6,0,0]} />
-                  <Bar dataKey="waste" fill="#B39DDB" barSize={18} radius={[6,6,0,0]} />
+                  <Bar
+                    dataKey="qty"
+                    fill="#6C63FF"
+                    barSize={18}
+                    radius={[6, 6, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="waste"
+                    fill="#B39DDB"
+                    barSize={18}
+                    radius={[6, 6, 0, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -94,14 +130,17 @@ export default function ItemDetailPage() {
 
         {/* bottom buttons */}
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
-          <PrimaryButton>Compare Weeks</PrimaryButton>
+          <PrimaryButton onClick={handleCompareWeeks}>
+            Compare Weeks
+          </PrimaryButton>
 
-          
-          <Link href="/item-logs/cinammon-rolls">
+          <Link href="/item-logs">
             <PrimaryButton>View Logs</PrimaryButton>
           </Link>
 
-          <PrimaryButton>Export Report</PrimaryButton>
+          <PrimaryButton onClick={handleExportReport}>
+            Export Report
+          </PrimaryButton>
         </div>
       </div>
     </div>
@@ -119,9 +158,18 @@ function StatCard({ title, value }: { title: string; value: string }) {
   );
 }
 
-function PrimaryButton({ children }: { children: React.ReactNode }) {
+function PrimaryButton({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
-    <Button className="rounded-2xl bg-[#9346FF] px-12 py-6 text-lg font-normal text-white shadow-md hover:bg-[#7b33e6]">
+    <Button
+      onClick={onClick}
+      className="rounded-2xl bg-[#9346FF] px-12 py-6 text-lg font-normal text-white shadow-md hover:bg-[#7b33e6]"
+    >
       {children}
     </Button>
   );
