@@ -79,6 +79,7 @@ export default function PickupPage(){
             onChange={(e)=>setCharity(e.target.value)}
             required
             style={{
+              fontFamily: "Georgia, serif",
               width:"100%",
               padding:"10px",
               marginBottom:20,
@@ -130,6 +131,7 @@ export default function PickupPage(){
             onChange={(e)=>setPickupDate(e.target.value)}
             required
             style={{
+              fontFamily: "Georgia, serif",
               width:"100%",
               padding:"10px",
               marginBottom:"20px",
@@ -145,6 +147,7 @@ export default function PickupPage(){
             onChange={(e)=>setTimeSlot(e.target.value)}
             required
             style={{
+              fontFamily: "Georgia, serif",
               width:"100%",
               padding:"10px",
               marginBottom:20,
