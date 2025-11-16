@@ -10,16 +10,16 @@ const charities: Record<
   }
 > = {
   "North Texas Food Bank": {
-    accepts: [...],
-    rejects: [...],
+    accepts: ["Canned goods", "Dry rice", "Dry pasta"],
+    rejects: ["Open packages", "Expired food", "Homemade items"],
   },
   "Crossroads Community Services": {
-    accepts: [...],
-    rejects: [...],
+    accepts: ["Cereal", "Peanut butter", "Canned vegetables"],
+    rejects: ["Glass containers", "Expired food"],
   },
   "Feeding America": {
-    accepts: [...],
-    rejects: [...],
+    accepts: ["Canned fruit", "Soup", "Boxed meals"],
+    rejects: ["Perishables", "Damaged cans"],
   },
 };
 
