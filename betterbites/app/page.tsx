@@ -10,8 +10,8 @@ type RecordT = {
   status: 'Completed' | 'Pending' | 'Flagged';
   quantity: number;
   calories: number;
-  expires: string; // YYYY-MM-DD
-  date: string;    // YYYY-MM-DD
+  expires: string;
+  date: string;
 };
 
 export default function DashboardPage() {
@@ -22,7 +22,6 @@ export default function DashboardPage() {
   const [date, setDate] = useState<string>('');
   const [category, setCategory] = useState<string>('All');
 
-  // Modal state
   const [open, setOpen] = useState(false);
   const [itemName, setItemName] = useState('');
   const [catAdd, setCatAdd] = useState('');
@@ -32,10 +31,8 @@ export default function DashboardPage() {
   const [statusAdd, setStatusAdd] = useState<'Completed' | 'Pending' | 'Flagged'>('Pending');
   const [dateAdd, setDateAdd] = useState('');
 
-  // Toast
   const [toast, setToast] = useState<string>('');
 
-  // Load data from /public/data.json
   useEffect(() => {
     (async () => {
       try {
@@ -49,14 +46,12 @@ export default function DashboardPage() {
 
         setDate(latestDateFromData(data) ?? todayISO());
       } catch (e) {
-        console.error('Failed to load /data.json', e);
         setAll([]);
         setDate(todayISO());
       }
     })();
   }, []);
 
-  // Filter whenever inputs change
   useEffect(() => {
     const rows = all.filter(r => {
       const dateMatch = !date || r.date === date;
@@ -66,7 +61,6 @@ export default function DashboardPage() {
     setFiltered(rows);
   }, [all, date, category]);
 
-  // KPIs
   const kpis = useMemo(() => {
     const total = filtered.length;
     const completed = filtered.filter(r => r.status === 'Completed').length;
@@ -75,11 +69,11 @@ export default function DashboardPage() {
     return { total, donationRate, avgQty };
   }, [filtered]);
 
-  // Modal defaults
   useEffect(() => {
     if (open) {
-      setDateAdd(todayISO());
-      setExpAdd(dateAddDays(todayISO(), 3));
+      const today = todayISO();
+      setDateAdd(today);
+      setExpAdd(dateAddDays(today, 3));
       setItemName('');
       setCatAdd(categories.find(c => c !== 'All') || '');
       setQtyAdd('');
@@ -118,27 +112,19 @@ export default function DashboardPage() {
 
   return (
     <div>
-      {/* Topbar */}
       <header className="topbar">
         <div className="brand">
           <div className="logo">BB</div>
-          <div className="title">
-            {/* <h1>BetterBites</h1>
-            <p className="subtitle">Donation Inventory · Dashboard</p> */}
-          </div>
+          <div className="title"></div>
         </div>
         <div className="user"><span className="username">Hi, Alex</span></div>
       </header>
 
-      {/* Tabs */}
       <nav className="tabs" aria-label="Primary">
         <span className="tab active" aria-current="page">Dashboard</span>
-        {/* Adjust this href to your teammate’s history route: e.g. /weekly-waste */}
-        {/* <Link className="tab" href="/weekly-waste">History</Link> */}
       </nav>
 
       <main className="page" role="main">
-        {/* Filters */}
         <section className="card filters" aria-labelledby="filters">
           <div className="card-head">
             <h2 id="filters">Filters</h2>
@@ -166,14 +152,12 @@ export default function DashboardPage() {
           <div className="helper">Change Date/Category and click <b>Apply</b>. KPIs and table update.</div>
         </section>
 
-        {/* KPIs */}
         <section className="kpis" aria-label="KPIs">
           <article className="kpi card"><div className="kpi-label">Total Items</div><div className="kpi-value">{kpis.total}</div></article>
           <article className="kpi card"><div className="kpi-label">Donation Rate</div><div className="kpi-value">{kpis.donationRate}%</div></article>
           <article className="kpi card"><div className="kpi-label">Avg Quantity</div><div className="kpi-value">{kpis.avgQty}</div></article>
         </section>
 
-        {/* Table */}
         <section className="card" aria-labelledby="table">
           <div className="card-head">
             <h2 id="table">Recent Donations</h2>
@@ -208,10 +192,8 @@ export default function DashboardPage() {
         </section>
       </main>
 
-      {/* Toast */}
       {!!toast && <div className="toast show">{toast}</div>}
 
-      {/* Add Donation Modal */}
       {open && (
         <div className="modal-overlay show" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="modal" role="dialog" aria-modal="true" aria-labelledby="addHeading">
@@ -248,59 +230,282 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Styles (kept local so we don't depend on global CSS) */}
       <style jsx>{`
-        :global(body){margin:0;backgroundImage: "url('/backgrounds/food-background.png')" ; color:#e6edf3;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-        .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #232938;position:sticky;top:0;background:rgba(14,17,23,.8);backdrop-filter:blur(8px);z-index:10}
-        .brand{display:flex;gap:12px;align-items:center}
-        .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#7c3aed;color:#fff;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-        .title h1{margin:0;font-size:18px}.subtitle{margin:2px 0 0 0;color:#8b949e;font-size:12px}
-        .user{display:flex;gap:10px;align-items:center}.username{color:#8b949e}
-        .tabs{display:flex;gap:10px;padding:10px 20px;border-bottom:1px solid #232938}
-        .tab{display:inline-flex;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid #232938;color:#8b949e;text-decoration:none}
-        .tab.active{background:#161b22;color:#e6edf3;border-color:#2a3242}
-        .page{max-width:1100px;margin:24px auto;padding:0 20px}
-        .card{background:linear-gradient(180deg,#111827,#0f1625);border:1px solid #232938;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-        .card + .card{margin-top:18px}
-        .card-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #232938}
-        .card-actions{display:flex;gap:8px}
-        .filters{padding-bottom:12px}
-        .filter-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:16px}
-        .field{grid-column:span 4}
-        .actions{grid-column:span 4;display:flex;gap:8px;align-items:end}
-        label{display:block;margin-bottom:6px;color:#8b949e;font-size:13px}
-        input[type="date"],select,input[type="text"],input[type="number"]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #232938;background:#0c1220;color:#e6edf3;outline:none}
-        .btn{padding:10px 14px;border-radius:12px;border:1px solid #232938;background:#0c1220;color:#e6edf3;cursor:pointer}
-        .btn.primary{background:linear-gradient(90deg,#7c3aed,#a78bfa);border-color:transparent}
-        .helper{padding:0 16px 12px 16px;color:#8b949e;font-size:12px}
-        .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
-        .kpi{padding:16px}.kpi-label{color:#8b949e;font-size:12px}.kpi-value{font-size:28px;font-weight:700;margin-top:6px}
-        .table-wrap{overflow:auto}
-        table{width:100%;border-collapse:collapse}
-        th,td{padding:12px 10px;border-bottom:1px solid #232938;text-align:left}
-        thead th{position:sticky;top:0;background:#101621}
-        .status-pill{padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid #232938}
-        .status-Completed{background:rgba(16,185,129,.15);color:#34d399}
-        .status-Pending{background:rgba(245,158,11,.15);color:#f59e0b}
-        .status-Flagged{background:rgba(239,68,68,.15);color:#ef4444}
-        .actions-col{white-space:nowrap}
-        .link{color:#93c5fd;text-decoration:none;border-bottom:1px dotted #93c5fd}
-        .empty{padding:16px;color:#8b949e}
-        .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#101827;border:1px solid #232938;color:#e6edf3;padding:10px 14px;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
-        .modal{width:min(680px,96vw);background:linear-gradient(180deg,#111827,#0f1625);border:1px solid #232938;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-        .modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #232938}
-        .icon-btn{background:transparent;border:1px solid #232938;color:#e6edf3;width:36px;height:36px;border-radius:10px;cursor:pointer}
-        .modal-form{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:16px}
-        .modal-form .field{grid-column:span 6}
-        .modal-actions{grid-column:span 12;display:flex;gap:8px;justify-content:flex-end}
-        @media (max-width:900px){.filter-grid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr}.modal-form{grid-template-columns:1fr}.modal-form .field{grid-column:auto}}
-      `}</style>
+  :global(body){
+    margin:0;
+    background-image:url('/backgrounds/food-background.png');
+    background-size:cover;
+    background-repeat:repeat;
+    color:#333;
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial
+  }
+
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 20px;
+    border-bottom:1px solid rgba(0,0,0,.12);
+    position:sticky;
+    top:0;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(10px);
+    z-index:10
+  }
+
+  .brand{display:flex;gap:12px;align-items:center}
+
+  .logo{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:#7c3aed;
+    color:#fff;
+    font-weight:700;
+    box-shadow:0 6px 16px rgba(0,0,0,.15)
+  }
+
+  .title h1{margin:0;font-size:18px}
+  .subtitle{margin:2px 0 0 0;color:#666;font-size:12px}
+
+  .user{display:flex;gap:10px;align-items:center}
+  .username{color:#666}
+
+  .tabs{
+    display:flex;
+    gap:10px;
+    padding:10px 20px;
+    border-bottom:1px solid rgba(0,0,0,.12)
+  }
+
+  .tab{
+    display:inline-flex;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(0,0,0,.12);
+    color:#555;
+    text-decoration:none;
+    background:white
+  }
+
+  .tab.active{
+    background:#e9e5ff;
+    color:#4b2bb7;
+    border-color:#d7cffc
+  }
+
+  .page{
+    max-width:1100px;
+    margin:24px auto;
+    padding:0 20px
+  }
+
+  .card{
+    background:white;
+    border:1px solid rgba(0,0,0,.12);
+    border-radius:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08)
+  }
+
+  .card + .card{margin-top:18px}
+
+  .card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(0,0,0,.08)
+  }
+
+  .card-actions{display:flex;gap:8px}
+
+  .filters{padding-bottom:12px}
+
+  .filter-grid{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:12px;
+    padding:16px
+  }
+
+  .field{grid-column:span 4}
+  .actions{grid-column:span 4;display:flex;gap:8px;align-items:end}
+
+  label{
+    display:block;
+    margin-bottom:6px;
+    color:#666;
+    font-size:13px
+  }
+
+  input[type="date"],
+  select,
+  input[type="text"],
+  input[type="number"]{
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,.15);
+    background:white;
+    color:#333;
+    outline:none
+  }
+
+  .btn{
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,.15);
+    background:white;
+    color:#333;
+    cursor:pointer
+  }
+
+  .btn.primary{
+    background:#7c3aed;
+    color:white;
+    border-color:#7c3aed
+  }
+
+  .helper{
+    padding:0 16px 12px 16px;
+    color:#666;
+    font-size:12px
+  }
+
+  .kpis{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin:16px 0
+  }
+
+  .kpi{padding:16px}
+  .kpi-label{color:#666;font-size:12px}
+  .kpi-value{font-size:28px;font-weight:700;margin-top:6px}
+
+  .table-wrap{overflow:auto}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:white
+  }
+
+  th,td{
+    padding:12px 10px;
+    border-bottom:1px solid rgba(0,0,0,.1);
+    text-align:left
+  }
+
+  thead th{
+    position:sticky;
+    top:0;
+    background:white;
+    font-weight:600
+  }
+
+  .status-pill{
+    padding:4px 8px;
+    border-radius:999px;
+    font-size:12px;
+    border:1px solid rgba(0,0,0,.12)
+  }
+
+  .status-Completed{background:#e6f7ef;color:#15803d}
+  .status-Pending{background:#fff7e6;color:#b45309}
+  .status-Flagged{background:#feeceb;color:#b91c1c}
+
+  .actions-col{white-space:nowrap}
+
+  .link{
+    color:#4b6ef5;
+    text-decoration:none;
+    border-bottom:1px dotted #4b6ef5
+  }
+
+  .empty{padding:16px;color:#777}
+
+  .toast{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:20px;
+    background:white;
+    border:1px solid rgba(0,0,0,.12);
+    color:#333;
+    padding:10px 14px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.12)
+  }
+
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:50
+  }
+
+  .modal{
+    width:min(680px,96vw);
+    background:white;
+    border:1px solid rgba(0,0,0,.12);
+    border-radius:18px;
+    box-shadow:0 6px 18px rgba(0,0,0,.1)
+  }
+
+  .modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(0,0,0,.08)
+  }
+
+  .icon-btn{
+    background:transparent;
+    border:1px solid rgba(0,0,0,.2);
+    color:#444;
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    cursor:pointer
+  }
+
+  .modal-form{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:12px;
+    padding:16px
+  }
+
+  .modal-form .field{grid-column:span 6}
+
+  .modal-actions{
+    grid-column:span 12;
+    display:flex;
+    gap:8px;
+    justify-content:flex-end
+  }
+
+  @media (max-width:900px){
+    .filter-grid{grid-template-columns:1fr 1fr}
+    .kpis{grid-template-columns:1fr}
+    .modal-form{grid-template-columns:1fr}
+    .modal-form .field{grid-column:auto}
+  }
+`}</style>
+
     </div>
   );
 }
 
-/* helpers */
 function fmt(n: number) { return new Intl.NumberFormat().format(n); }
 function todayISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function dateAddDays(iso: string, n: number) { const d = new Date(iso+'T00:00:00'); d.setDate(d.getDate()+n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
