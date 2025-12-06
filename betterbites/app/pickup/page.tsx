@@ -58,6 +58,22 @@ export default function PickupPage(){
 
   const todayMin = getTodayDate();
 
+  //implementing feedback to resrict user from typing and making errors
+  const noTyping = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedKeys = [
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Escape",
+      "Enter",
+
+    ];
+    if(!allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  }
 
   return(
     <div style={{fontFamily:"Roboto, sans-serif"}}>
@@ -142,12 +158,15 @@ export default function PickupPage(){
               </ul>
             </div>
           )}
-
+      
           <label style={{fontWeight:600}}>Pickup Date</label>
+          
           <input
             type="date"
             value={pickupDate}
-            onChange={(e)=>setPickupDate(e.target.value)}
+            //implementing feedback: won't let user type date, only pick to prevent errors
+            onKeyDown={noTyping}
+            onChange={(e) => setPickupDate(e.target.value)}
             //set this min to validate the date -- causes user to not be able to select previous date 
             min={todayMin}
             required
