@@ -2,6 +2,8 @@
 import React from "react";
 import {useState} from "react";
 
+
+
 const charities: Record<
   string,
   {
@@ -30,6 +32,7 @@ export default function PickupPage(){
   const [pickupSpecialInstructions,setpickupSpecialInstructions]=useState("");
   const [popupVisible,setpopupVisible]=useState(false);
 
+
   const resetform=()=>{
     setCharity("");
     setPickupDate("");
@@ -42,6 +45,18 @@ export default function PickupPage(){
     setpopupVisible(true);
     resetform();
   };
+
+  //Implementing feedback on how pickup date should not be past date 
+  //function to calculate today's date
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const todayMin = getTodayDate();
 
 
   return(
@@ -133,6 +148,8 @@ export default function PickupPage(){
             type="date"
             value={pickupDate}
             onChange={(e)=>setPickupDate(e.target.value)}
+            //set this min to validate the date -- causes user to not be able to select previous date 
+            min={todayMin}
             required
             style={{
               width:"100%",
@@ -143,7 +160,23 @@ export default function PickupPage(){
               fontSize:19
             }}
           />
+          {/* adding hint to notify user to pick present or future date*/}
+        
+            <p 
+            style={{
+                marginTop: "6px",
+                marginBottom: "10px",
+                color: "#6B008D",
+                fontSize: "15px",
+                textAlign: "right",
+                maxWidth: "60%",
+                marginLeft: "auto",
+                paddingRight: "10px"
 
+            }}
+            >The selected date must be today or a future date.</p>
+          
+          
           <label style={{fontWeight:600}}>Time Slot</label>
           <select
             value={timeSlot}
@@ -250,3 +283,4 @@ export default function PickupPage(){
     </div>
   );
 }
+
