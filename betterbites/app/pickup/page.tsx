@@ -43,7 +43,6 @@ export default function PickupPage(){
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setpopupVisible(true);
-    resetform();
   };
 
   //Implementing feedback on how pickup date should not be past date 
@@ -277,10 +276,19 @@ export default function PickupPage(){
                 color:"#000"
               }}
             >
+              {/* Implementing feedback of showing user confrimation of their pickup scheduled at chosen date and time */}
               <h2>Your Pickup Is Scheduled!</h2>
-
+              <h3> Pickup Date: {pickupDate}</h3>
+              <h3> Time Slot: {timeSlot} </h3>
+              
+              {/* call the resetform() after closing popup message*/}
               <button
-                onClick={()=>setpopupVisible(false)}
+                onClick={()=> {
+                  setpopupVisible(false); 
+                  resetform();
+                }
+                }
+
                 style={{
                   marginTop:20,
                   border:"none",
