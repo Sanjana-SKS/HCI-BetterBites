@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 
 
 export default function DetailedAnalyticsPage() {
@@ -13,11 +14,11 @@ export default function DetailedAnalyticsPage() {
     { week: "Week 3", qty: 31 },
     { week: "Week 4", qty: 25 },
   ];
-
+  //change the expiration date for cinnamon rolls so user can view more information 
   const rows = [
-    { item: "Croissant Batch", qty: 20, waste: "30%", donate: "30%", exp: "10/30" },
-    { item: "Cinnamon Rolls", qty: 12, waste: "50%", donate: "50%", exp: "10/28" },
-    { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "11/01" },
+    { item: "Croissant Batch", qty: 20, waste: "30%", donate: "30%", exp: "2025-10-30" },
+    { item: "Cinnamon Rolls", qty: 12, waste: "50%", donate: "50%", exp: "2025-12-31" },
+    { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "2025-11-01" },
   ];
 
   // Mapping item names → dynamic routes
@@ -129,29 +130,52 @@ style={{
             </thead>
 
             <tbody>
-              {rows.map((r, i) => (
+              {rows.map((r, i) => {
+                //implementing feedback of setting variable to check if item is expired
+                const isExpired = new Date(r.exp) < new Date();
+              
+              
+              return (
                 <tr key={i} className="border-b border-gray-200">
                   <Td className="font-medium">{r.item}</Td>
                   <Td>{r.qty}</Td>
                   <Td>{r.waste}</Td>
-                  <Td>{r.donate}</Td>
+                  {/* checking if item is expired */ }
+                  <Td> 
+                    <span
+                     style={{
+                    color: isExpired ? "red" : "inherit",
+                    fontWeight: isExpired? 600 : 400
+                  }}
+                  >
+                    { isExpired ? "Item is expired and can't be donated." : r.donate}
+                  </span>
+                  </Td>
                   <Td>{r.exp}</Td>
+                  { /* Disable view button if item expired and prompt staff review */}
                   <Td>
+                    {isExpired ? (
+                      <Button size="sm" className="bg-gray-300 text-black cursor-not-allowed" disabled >
+                        Review Needed
+                      </Button>
+                    ) : (
                     <Link href={itemRoutes[r.item] ?? "#"}>
                       <Button size="sm" className="bg-[#6C63FF] text-white">
                         View
                       </Button>
                     </Link>
+                    )}
                   </Td>
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </CardContent>
       </Card>
     </div>
      
-  );
+  )
 }
 
 
