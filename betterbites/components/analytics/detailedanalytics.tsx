@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
+
 export default function DetailedAnalyticsPage() {
   const data = [
     { week: "Week 1", qty: 20 },
@@ -26,8 +27,26 @@ export default function DetailedAnalyticsPage() {
     Muffins: "/analytics/detailed/muffins",
   };
 
+  //applying same styling from the charts on weeklywaste
+  const chartStyling = {
+        backgroundColor: "#fff",
+        borderRadius: "8px",
+        padding: "24px",
+        boxShadow: "0px 1px 3px rgba(0,0,0,0.12)"
+  }
+
   return (
-    <div>
+    //implementing feedback of consistent formatting on dashboard pages, applied same styling from waste summary
+    <div 
+style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "24px",
+          maxWidth: "1200px",
+          width: "100%",
+          paddingLeft: "80px",
+          paddingRight: "80px",
+}}>
 
       {/* back button */}
       <div className="mb-6">
@@ -40,7 +59,21 @@ export default function DetailedAnalyticsPage() {
       </div>
 
       {/* title */}
-      <h1 className="text-4xl font-bold text-center mb-2">
+      {/* adding the same styling as weekly waste's title */}
+      <h1 
+      style={{
+          color: "#000",
+          textAlign: "center",
+          textShadow: "0 4px 4px rgba(0,0,0,0.25)",
+          WebkitTextStrokeWidth: "1px",
+          WebkitTextStrokeColor: "#000",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "32px",
+          fontWeight: 500,
+          lineHeight: "40px",
+          marginTop: "32px",
+          marginBottom: "24px",
+      }} >
         Detailed Analytics
       </h1>
       <p className="text-lg text-center text-gray-700 mb-12">
@@ -48,7 +81,8 @@ export default function DetailedAnalyticsPage() {
       </p>
 
       {/* stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      {/* changed number of columns to match weekly waste*/}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         <StatCard title="Total Wasted" value="120" />
         <StatCard title="Total Donated" value="280" />
         <StatCard title="Average Quantity" value="25" />
@@ -56,7 +90,8 @@ export default function DetailedAnalyticsPage() {
       </div>
 
       {/* trend chart */}
-      <Card className="bg-white shadow-md border border-gray-200 mb-12">
+      {/* applying chartStyling for consistent styling with weekly waste */}
+      <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>4 Week Trend — Pastries</CardTitle>
         </CardHeader>
@@ -75,7 +110,8 @@ export default function DetailedAnalyticsPage() {
       </Card>
 
       {/* table */}
-      <Card className="bg-white shadow-md border border-gray-200">
+      {/* applying chartStyling for consistent styling with weekly waste */}
+      <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>Pastries Breakdown</CardTitle>
         </CardHeader>
@@ -114,19 +150,55 @@ export default function DetailedAnalyticsPage() {
         </CardContent>
       </Card>
     </div>
+     
   );
 }
 
+
+//adding the same styling from the card components found in weekly waste
 function StatCard({ title, value }: { title: string; value: string | number }) {
   return (
-    <Card className="bg-white shadow-md border border-gray-200">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-semibold">{value}</p>
-      </CardContent>
-    </Card>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        width: "440px",
+        minWidth: "240px",
+        borderRadius: "8px",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24)",
+        padding: "24px",
+        alignItems: "flex-start",
+        rowGap: "12px",
+      }}
+    >
+      <h3
+        style={{
+          color: "#000",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "16px",
+          fontWeight: 600,
+          lineHeight: "20px",
+          margin: 0,
+        }}
+      >
+        {title}
+      </h3>
+
+      <p
+        style={{
+          color: "#757575",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "14px",
+          lineHeight: "20px",
+          margin: 0,
+          whiteSpace: "pre-line",
+        }}
+      >
+        {value}
+      </p>
+ </div>
   );
 }
 
@@ -137,3 +209,4 @@ function Th({ children }: { children: React.ReactNode }) {
 function Td({ children, className }: { children: React.ReactNode; className?: string }) {
   return <td className={`py-3 text-gray-800 ${className ?? ""}`}>{children}</td>;
 }
+
