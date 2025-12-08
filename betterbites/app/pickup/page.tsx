@@ -98,35 +98,50 @@ export default function PickupPage(){
             ))}
           </select>
 
-          {charity&&(
-            <div
-              style={{
-                backgroundColor:"#DAB1DA",
-                padding:"20px",
-                marginBottom:12,
-                borderRadius:"10px",
-                border:"1px solid #f3d074",
-                fontSize:19,
-                lineHeight:1.25,
-                textAlign:"left",
-                color:"#000"
-              }}
-            >
-              <strong style={{display:"block",marginBottom:6}}>Accepts:</strong>
-              <ul style={{marginLeft:20}}>
-                {charities[charity].accepts.map((item,idx)=>(
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
+          {charity && (
+            <div style={{ marginBottom: 12 }}>
+              <div
+                style={{
+                  backgroundColor: "#E7F7E7",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  border: "1px solid #A8D5A3",
+                  marginBottom: "12px",
+                  fontSize: 19,
+                  lineHeight: 1.25,
+                  color: "#000",
+                }}
+              >
+                <strong style={{ display: "block", marginBottom: 6 }}>Accepted Items</strong>
+                <ul style={{ marginLeft: 20 }}>
+                  {charities[charity].accepts.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
 
-              <strong style={{display:"block",margin:"10px 0 6px"}}>Does NOT accept:</strong>
-              <ul style={{marginLeft:20}}>
-                {charities[charity].rejects.map((item,idx)=>(
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
+
+              <div
+                style={{
+                  backgroundColor: "#FBEAEA",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  border: "1px solid #E4A1A1",
+                  fontSize: 19,
+                  lineHeight: 1.25,
+                  color: "#000",
+                }}
+              >
+                <strong style={{ display: "block", marginBottom: 6 }}>Not Accepted</strong>
+                <ul style={{ marginLeft: 20 }}>
+                  {charities[charity].rejects.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           )}
+
 
           <label style={{fontWeight:600}}>Pickup Date</label>
           <input
