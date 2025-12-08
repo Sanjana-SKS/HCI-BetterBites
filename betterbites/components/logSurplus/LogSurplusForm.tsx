@@ -4,11 +4,14 @@ import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
 export default function LogSurplusForm() {
+
+  const [item, setItem] = useState("");
   const [quantity, setQuantity] = useState("");
   const [expiration, setExpiration] = useState("");
   const [category, setCategory] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [submittedData, setSubmittedData] = useState<{
+    item: string;
     quantity: string;
     expiration: string;
     category: string;
@@ -24,19 +27,27 @@ export default function LogSurplusForm() {
     "Other",
   ];
 
+  //get current date and format
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  const minDate = `${year}-${month}-${day}`;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!quantity || !expiration) {
-      alert("Please fill in quantity and expiration date");
+    if (!item || !quantity || !expiration) {
+      alert("Please fill in item, quantity, and expiration date");
       return;
     }
 
     // Store submitted data and show confirmation
-    setSubmittedData({ quantity, expiration, category });
+    setSubmittedData({ item, quantity, expiration, category });
     setShowConfirmation(true);
 
     // Reset form
+    setItem("");
     setQuantity("");
     setExpiration("");
     setCategory("");
@@ -88,6 +99,38 @@ export default function LogSurplusForm() {
           }}
         >
           <form onSubmit={handleSubmit}>
+
+              {/* Item input */}
+              <div style={{ marginBottom: "24px" }}>
+                  <label
+                      style={{
+                          display: "block",
+                          color: "#000",
+                          fontFamily: "Roboto, sans-serif",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                          marginBottom: "8px",
+                      }}
+                  >
+                      Item *
+                  </label>
+                  <input
+                      type="text"
+                      placeholder="Enter item"
+                      value={item}
+                      onChange={(e) => setItem(e.target.value)}
+                      style={{
+                          width: "100%",
+                          padding: "10px",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "4px",
+                          fontFamily: "Roboto, sans-serif",
+                          fontSize: "14px",
+                          boxSizing: "border-box",
+                      }}
+                  />
+              </div>
+
             {/* Quantity input */}
             <div style={{ marginBottom: "24px" }}>
               <label
@@ -138,6 +181,7 @@ export default function LogSurplusForm() {
                 type="date"
                 value={expiration}
                 onChange={(e) => setExpiration(e.target.value)}
+                min = {minDate}
                 style={{
                   width: "100%",
                   padding: "10px",

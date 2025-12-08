@@ -4,7 +4,7 @@ export default function ConfirmationModal({
   data,
   onClose,
 }: {
-  data: { quantity: string; expiration: string; category: string };
+  data: {item: string; quantity: string; expiration: string; category: string };
   onClose: () => void;
 }) {
   return (
@@ -93,6 +93,17 @@ export default function ConfirmationModal({
             textAlign: "left",
           }}
         >
+            <p
+                style={{
+                    margin: "8px 0",
+                    color: "#000",
+                    fontFamily: "Roboto, sans-serif",
+                    fontSize: "13px",
+                }}
+            >
+                <strong>Item:</strong> {data.item} items
+            </p>
+
           <p
             style={{
               margin: "8px 0",
