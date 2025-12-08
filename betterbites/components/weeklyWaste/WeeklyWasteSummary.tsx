@@ -65,7 +65,7 @@ const weeklyData: Record<
       },
     },
   },
-  "Dec 17–23": {
+  "Jan 15–21": {
     totalItems: 72,
     bestTime: "Evening",
     topCategory: "Bread",
