@@ -2,6 +2,8 @@
 import React from "react";
 import {useState} from "react";
 
+
+
 const charities: Record<
   string,
   {
@@ -30,6 +32,7 @@ export default function PickupPage(){
   const [pickupSpecialInstructions,setpickupSpecialInstructions]=useState("");
   const [popupVisible,setpopupVisible]=useState(false);
 
+
   const resetform=()=>{
     setCharity("");
     setPickupDate("");
@@ -40,9 +43,36 @@ export default function PickupPage(){
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setpopupVisible(true);
-    resetform();
   };
 
+  //Implementing feedback on how pickup date should not be past date 
+  //function to calculate today's date
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const todayMin = getTodayDate();
+
+  //implementing feedback to resrict user from typing and making errors
+  const noTyping = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedKeys = [
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Escape",
+      "Enter",
+
+    ];
+    if(!allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  }
 
   return(
     <div style={{fontFamily:"Roboto, sans-serif"}}>
@@ -140,14 +170,19 @@ export default function PickupPage(){
                 </ul>
               </div>
             </div>
-          )}
+          )}      
 
 
           <label style={{fontWeight:600}}>Pickup Date</label>
+          
           <input
             type="date"
             value={pickupDate}
-            onChange={(e)=>setPickupDate(e.target.value)}
+            //implementing feedback: won't let user type date, only pick to prevent errors
+            onKeyDown={noTyping}
+            onChange={(e) => setPickupDate(e.target.value)}
+            //set this min to validate the date -- causes user to not be able to select previous date 
+            min={todayMin}
             required
             style={{
               width:"100%",
@@ -158,7 +193,23 @@ export default function PickupPage(){
               fontSize:19
             }}
           />
+          {/* adding hint to notify user to pick present or future date*/}
+        
+            <p 
+            style={{
+                marginTop: "6px",
+                marginBottom: "10px",
+                color: "#6B008D",
+                fontSize: "15px",
+                textAlign: "right",
+                maxWidth: "60%",
+                marginLeft: "auto",
+                paddingRight: "10px"
 
+            }}
+            >The selected date must be today or a future date.</p>
+          
+          
           <label style={{fontWeight:600}}>Time Slot</label>
           <select
             value={timeSlot}
@@ -240,10 +291,19 @@ export default function PickupPage(){
                 color:"#000"
               }}
             >
+              {/* Implementing feedback of showing user confrimation of their pickup scheduled at chosen date and time */}
               <h2>Your Pickup Is Scheduled!</h2>
-
+              <h3> Pickup Date: {pickupDate}</h3>
+              <h3> Time Slot: {timeSlot} </h3>
+              
+              {/* call the resetform() after closing popup message*/}
               <button
-                onClick={()=>setpopupVisible(false)}
+                onClick={()=> {
+                  setpopupVisible(false); 
+                  resetform();
+                }
+                }
+
                 style={{
                   marginTop:20,
                   border:"none",
@@ -265,3 +325,4 @@ export default function PickupPage(){
     </div>
   );
 }
+

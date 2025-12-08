@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
+import { useState } from "react";
 
 export default function DetailedAnalyticsPage() {
   const data = [
@@ -12,11 +14,11 @@ export default function DetailedAnalyticsPage() {
     { week: "Week 3", qty: 31 },
     { week: "Week 4", qty: 25 },
   ];
-
+  //change the expiration date for cinnamon rolls so user can view more information 
   const rows = [
-    { item: "Croissant Batch", qty: 20, waste: "30%", donate: "30%", exp: "10/30" },
-    { item: "Cinnamon Rolls", qty: 12, waste: "50%", donate: "50%", exp: "10/28" },
-    { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "11/01" },
+    { item: "Croissant Batch", qty: 20, waste: "30%", donate: "30%", exp: "2025-10-30" },
+    { item: "Cinnamon Rolls", qty: 12, waste: "50%", donate: "50%", exp: "2025-12-31" },
+    { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "2025-11-01" },
   ];
 
   // Mapping item names → dynamic routes
@@ -26,8 +28,28 @@ export default function DetailedAnalyticsPage() {
     Muffins: "/analytics/detailed/muffins",
   };
 
+  //applying same styling from the charts on weeklywaste
+  const chartStyling = {
+        backgroundColor: "#fff",
+        borderRadius: "8px",
+        padding: "24px",
+        boxShadow: "0px 1px 3px rgba(0,0,0,0.12)"
+  }
+  //implementing feedback of being able to hide charts to avoid clutter
+  const [showTable, setShowTable] = useState(false);
+
   return (
-    <div>
+    //implementing feedback of consistent formatting on dashboard pages, applied same styling from waste summary
+    <div 
+style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "24px",
+          maxWidth: "1200px",
+          width: "100%",
+          paddingLeft: "80px",
+          paddingRight: "80px",
+}}>
 
       {/* back button */}
       <div className="mb-6">
@@ -40,7 +62,21 @@ export default function DetailedAnalyticsPage() {
       </div>
 
       {/* title */}
-      <h1 className="text-4xl font-bold text-center mb-2">
+      {/* adding the same styling as weekly waste's title */}
+      <h1 
+      style={{
+          color: "#000",
+          textAlign: "center",
+          textShadow: "0 4px 4px rgba(0,0,0,0.25)",
+          WebkitTextStrokeWidth: "1px",
+          WebkitTextStrokeColor: "#000",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "32px",
+          fontWeight: 500,
+          lineHeight: "40px",
+          marginTop: "32px",
+          marginBottom: "24px",
+      }} >
         Detailed Analytics
       </h1>
       <p className="text-lg text-center text-gray-700 mb-12">
@@ -48,15 +84,35 @@ export default function DetailedAnalyticsPage() {
       </p>
 
       {/* stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      {/* changed number of columns to match weekly waste*/}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         <StatCard title="Total Wasted" value="120" />
         <StatCard title="Total Donated" value="280" />
         <StatCard title="Average Quantity" value="25" />
         <StatCard title="Expiring Soon" value="10" />
       </div>
 
+      {/* Adding a button to collapse charts to achieve minimalism*/}
+      <Button style={{
+            display: "flex",
+            justifyContent: "center",
+            maxWidth: "1200px",
+            width: "100%",
+            gap: 10,
+            alignItems: "center",  
+            backgroundColor: "#6C63FF",
+            boxShadow: "0px 2px 4px rgba(0,0,0,0.25)",
+            padding: "16px 24px",
+            margin: "0 auto"
+      }} onClick={() => setShowTable(prev => !prev)} >
+        {showTable ? "Hide Metrics" : "Show Metrics"}
+      </Button>
+
       {/* trend chart */}
-      <Card className="bg-white shadow-md border border-gray-200 mb-12">
+      {/* applying chartStyling for consistent styling with weekly waste */}
+      {/* button is added to collapse trend chart */}
+      {showTable && (
+      <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>4 Week Trend — Pastries</CardTitle>
         </CardHeader>
@@ -73,9 +129,13 @@ export default function DetailedAnalyticsPage() {
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* table */}
-      <Card className="bg-white shadow-md border border-gray-200">
+      {/* applying chartStyling for consistent styling with weekly waste */}
+      {/* button is added to collapse table */}
+      {showTable && (
+              <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>Pastries Breakdown</CardTitle>
         </CardHeader>
@@ -93,40 +153,98 @@ export default function DetailedAnalyticsPage() {
             </thead>
 
             <tbody>
-              {rows.map((r, i) => (
+              {rows.map((r, i) => {
+                //implementing feedback of setting variable to check if item is expired
+                const isExpired = new Date(r.exp) < new Date();
+              
+              
+              return (
                 <tr key={i} className="border-b border-gray-200">
                   <Td className="font-medium">{r.item}</Td>
                   <Td>{r.qty}</Td>
                   <Td>{r.waste}</Td>
-                  <Td>{r.donate}</Td>
+                  {/* checking if item is expired */ }
+                  <Td> 
+                    <span
+                     style={{
+                    color: isExpired ? "red" : "inherit",
+                    fontWeight: isExpired? 600 : 400
+                  }}
+                  >
+                    { isExpired ? "Item is expired and can't be donated." : r.donate}
+                  </span>
+                  </Td>
                   <Td>{r.exp}</Td>
+                  { /* Disable view button if item expired and prompt staff review */}
                   <Td>
+                    {isExpired ? (
+                      <Button size="sm" className="bg-gray-300 text-black cursor-not-allowed" disabled >
+                        Review Needed
+                      </Button>
+                    ) : (
                     <Link href={itemRoutes[r.item] ?? "#"}>
                       <Button size="sm" className="bg-[#6C63FF] text-white">
                         View
                       </Button>
                     </Link>
+                    )}
                   </Td>
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </CardContent>
       </Card>
+      )}
     </div>
   );
 }
 
+//adding the same styling from the card components found in weekly waste
 function StatCard({ title, value }: { title: string; value: string | number }) {
   return (
-    <Card className="bg-white shadow-md border border-gray-200">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-semibold">{value}</p>
-      </CardContent>
-    </Card>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        width: "440px",
+        minWidth: "240px",
+        borderRadius: "8px",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24)",
+        padding: "24px",
+        alignItems: "flex-start",
+        rowGap: "12px",
+      }}
+    >
+      <h3
+        style={{
+          color: "#000",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "16px",
+          fontWeight: 600,
+          lineHeight: "20px",
+          margin: 0,
+        }}
+      >
+        {title}
+      </h3>
+
+      <p
+        style={{
+          color: "#757575",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: "14px",
+          lineHeight: "20px",
+          margin: 0,
+          whiteSpace: "pre-line",
+        }}
+      >
+        {value}
+      </p>
+ </div>
   );
 }
 
@@ -137,3 +255,4 @@ function Th({ children }: { children: React.ReactNode }) {
 function Td({ children, className }: { children: React.ReactNode; className?: string }) {
   return <td className={`py-3 text-gray-800 ${className ?? ""}`}>{children}</td>;
 }
+

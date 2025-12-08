@@ -109,7 +109,7 @@ export default function SideNav() {
               lineHeight: "100%",
             }}
           >
-            History
+            Summary
           </span>
         </Link>
 
