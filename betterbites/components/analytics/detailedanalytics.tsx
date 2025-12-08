@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
-
+import { useState } from "react";
 
 export default function DetailedAnalyticsPage() {
   const data = [
@@ -35,6 +35,8 @@ export default function DetailedAnalyticsPage() {
         padding: "24px",
         boxShadow: "0px 1px 3px rgba(0,0,0,0.12)"
   }
+  //implementing feedback of being able to hide charts to avoid clutter
+  const [showTable, setShowTable] = useState(false);
 
   return (
     //implementing feedback of consistent formatting on dashboard pages, applied same styling from waste summary
@@ -90,8 +92,26 @@ style={{
         <StatCard title="Expiring Soon" value="10" />
       </div>
 
+      {/* Adding a button to collapse charts to achieve minimalism*/}
+      <Button style={{
+            display: "flex",
+            justifyContent: "center",
+            maxWidth: "1200px",
+            width: "100%",
+            gap: 10,
+            alignItems: "center",  
+            backgroundColor: "#6C63FF",
+            boxShadow: "0px 2px 4px rgba(0,0,0,0.25)",
+            padding: "16px 24px",
+            margin: "0 auto"
+      }} onClick={() => setShowTable(prev => !prev)} >
+        {showTable ? "Hide Metrics" : "Show Metrics"}
+      </Button>
+
       {/* trend chart */}
       {/* applying chartStyling for consistent styling with weekly waste */}
+      {/* button is added to collapse trend chart */}
+      {showTable && (
       <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>4 Week Trend — Pastries</CardTitle>
@@ -109,10 +129,13 @@ style={{
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* table */}
       {/* applying chartStyling for consistent styling with weekly waste */}
-      <Card style={{...chartStyling, marginBottom: "24px"}}>
+      {/* button is added to collapse table */}
+      {showTable && (
+              <Card style={{...chartStyling, marginBottom: "24px"}}>
         <CardHeader>
           <CardTitle>Pastries Breakdown</CardTitle>
         </CardHeader>
@@ -173,11 +196,10 @@ style={{
           </table>
         </CardContent>
       </Card>
+      )}
     </div>
-     
-  )
+  );
 }
-
 
 //adding the same styling from the card components found in weekly waste
 function StatCard({ title, value }: { title: string; value: string | number }) {
