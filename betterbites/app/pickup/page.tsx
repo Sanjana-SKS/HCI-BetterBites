@@ -1,4 +1,5 @@
 "use client";
+import { buttonVariants } from "@/components/ui/button";
 import React from "react";
 import {useState} from "react";
 
@@ -31,6 +32,8 @@ export default function PickupPage(){
   const [timeSlot,setTimeSlot]=useState("");
   const [pickupSpecialInstructions,setpickupSpecialInstructions]=useState("");
   const [popupVisible,setpopupVisible]=useState(false);
+  //for the pickup history popup
+  const [popupPickups, setpopupPickups]=useState(false);
 
 
   const resetform=()=>{
@@ -264,6 +267,34 @@ export default function PickupPage(){
             Confirm Pickup
           </button>
         </form>
+        
+        <div
+          style={{
+            width:"260px",
+            margin:"0 auto",
+            marginTop:"5px",
+            padding:"0 40px",
+          }}
+        >
+          <button
+          onClick={() => setpopupPickups(true)}
+          style={{
+            width:"200px",
+            height:"100px",
+            padding:"10px",
+            marginBottom:20,
+            backgroundColor:"#6750A4",
+            border:"none",
+            borderRadius:"10px",
+            fontSize:20,
+            color:"#fff",
+            cursor:"pointer",
+          }}
+        >
+          See Scheduled Pickups History
+        </button>
+        </div>
+        
 
         {popupVisible&&(
           <div
@@ -321,8 +352,64 @@ export default function PickupPage(){
           </div>
         )}
 
+    {popupPickups && (
+      <div
+        onClick={() => setpopupPickups(false)}
+        style={{
+          position:"fixed",
+          top:0,
+          left:0,
+          width: "105vw",
+          height: "100vh",
+          background:'rgba(0,0,0,0.5)',
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
+        }}
+      >
+        <div
+        onClick={(e)=>e.stopPropagation()}
+        style={{
+          background:"#FFFFFF",
+          borderRadius:"20px",
+          textAlign:"center",
+          padding:"30px",
+          width:"300px",
+          color:"#000"
+        }}
+        >
+          <h2 style={{
+            marginBottom:'30px'
+           
+          }}>History of Scheduled Pickups</h2>
+          <p style={{
+            fontSize:16, 
+            textAlign:'left',
+            padding:'0 10px',
+            lineHeight: 1.5
+            }}>
+          1. Crossroads Community Services on January 23, 2026 from 9:00 - 11:00AM.
+          <br></br>
+          2. NorthTexasFood Bank on February 13, 2026 from 3:00 - 5:00 PM. Delivery Notes: No milk!
+           </p>
+
+        <button
+          onClick={() => setpopupPickups(false)}
+          style={{
+            marginTop: 20,
+            backgroundColor:'grey',
+            color:'white',
+            cursor:'pointer',
+          }}
+
+        >
+          Close History
+        </button>
       </div>
     </div>
+    )}
+  </div>
+</div>
   );
 }
 
