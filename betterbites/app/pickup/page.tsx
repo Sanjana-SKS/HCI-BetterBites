@@ -397,8 +397,8 @@ export default function PickupPage(){
           onClick={() => setpopupPickups(false)}
           style={{
             marginTop: 20,
-            backgroundColor:'grey',
-            color:'white',
+            backgroundColor:'#FFAC1C',
+            color:'black',
             cursor:'pointer',
           }}
 
