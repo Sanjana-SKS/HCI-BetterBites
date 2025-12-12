@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
-import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 import { useState } from "react";
 
 export default function DetailedAnalyticsPage() {
@@ -14,14 +13,14 @@ export default function DetailedAnalyticsPage() {
     { week: "Week 3", qty: 31 },
     { week: "Week 4", qty: 25 },
   ];
-  //change the expiration date for cinnamon rolls so user can view more information 
+  
   const rows = [
     { item: "Croissant Batch", qty: 20, waste: "30%", donate: "30%", exp: "2025-10-30" },
     { item: "Cinnamon Rolls", qty: 12, waste: "50%", donate: "50%", exp: "2025-12-31" },
     { item: "Muffins", qty: 31, waste: "10%", donate: "90%", exp: "2025-11-01" },
   ];
 
-  // Mapping item names → dynamic routes
+  
   const itemRoutes: Record<string, string> = {
     "Croissant Batch": "/analytics/detailed/croissant-batch",
     "Cinnamon Rolls": "/items",  
@@ -143,12 +142,12 @@ style={{
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b-2 border-gray-300">
-                <Th>Item</Th>
-                <Th>Qty</Th>
-                <Th>Wasted %</Th>
-                <Th>Donated %</Th>
-                <Th>Expires</Th>
-                <Th>View</Th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Wasted %</th>
+                <th>Donated %</th>
+                <th>Expires</th>
+                <th>View</th>
               </tr>
             </thead>
 
@@ -160,11 +159,11 @@ style={{
               
               return (
                 <tr key={i} className="border-b border-gray-200">
-                  <Td className="font-medium">{r.item}</Td>
-                  <Td>{r.qty}</Td>
-                  <Td>{r.waste}</Td>
+                  <td className="font-medium">{r.item}</td>
+                  <td>{r.qty}</td>
+                  <td>{r.waste}</td>
                   {/* checking if item is expired */ }
-                  <Td> 
+                  <td> 
                     <span
                      style={{
                     color: isExpired ? "red" : "inherit",
@@ -173,10 +172,10 @@ style={{
                   >
                     { isExpired ? "Item is expired and can't be donated." : r.donate}
                   </span>
-                  </Td>
-                  <Td>{r.exp}</Td>
+                  </td>
+                  <td>{r.exp}</td>
                   { /* Disable view button if item expired and prompt staff review */}
-                  <Td>
+                  <td>
                     {isExpired ? (
                       <Button size="sm" className="bg-gray-300 text-black cursor-not-allowed" disabled >
                         Review Needed
@@ -188,7 +187,7 @@ style={{
                       </Button>
                     </Link>
                     )}
-                  </Td>
+                  </td>
                 </tr>
               );
             })}
@@ -247,12 +246,3 @@ function StatCard({ title, value }: { title: string; value: string | number }) {
  </div>
   );
 }
-
-function Th({ children }: { children: React.ReactNode }) {
-  return <th className="py-3 text-left text-gray-800 font-semibold">{children}</th>;
-}
-
-function Td({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <td className={`py-3 text-gray-800 ${className ?? ""}`}>{children}</td>;
-}
-
