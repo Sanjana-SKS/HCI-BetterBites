@@ -5,18 +5,21 @@ import ConfirmationScreen from "./ConfirmationScreen"
 import {useState, useEffect, FormEvent} from "react";
 import styles from "./LogSurplusForm.module.css";
 
+//added this ti avoid the type error we were gettgin at deployment
+type SubmissionData = {
+  item: string;
+  quantity: number;
+  expDate: string;
+  category: string;
+};
+
 export default function LogSurplusForm() {
     const [item, setItem] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [expDate, setExpDate] = useState("");
     const [category, setCategory] = useState("");
     const [showConfirmationScreen, setShowConfirmationScreen] = useState(false);
-    const [submissionData, setSubmissionData] = useState< {
-        item: string;
-        quantity: number;
-        expDate: string;
-        category: string;
-    } | null>(null);
+    const [submissionData, setSubmissionData] = useState<SubmissionData | null>(null);
 
 
 
@@ -108,7 +111,7 @@ export default function LogSurplusForm() {
                         type = "number"
                         placeholder = "Enter quantity"
                         value = {quantity}
-                        onChange = {(e) => setQuantity(e.target.value)}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
                     />
                     {errors.quantity && <p className={styles.errors}>{errors.quantity}</p>}
 
