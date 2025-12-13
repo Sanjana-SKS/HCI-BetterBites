@@ -25,15 +25,30 @@ export default function ItemDetailPage() {
 
   return (
     <div className="min-h-screen w-full bg-food-pattern">
+
       <div className="max-w-6xl mx-auto pb-16">
         {/* top bar */}
         <div className="flex items-center justify-between pt-6 mb-4">
           <div className="flex items-center gap-4">
             <Link
               href="/analytics/detailed"
-              className="text-black font-medium hover:underline flex items-center gap-1"
             >
-              ← <span>Back</span>
+                <button
+                    style =
+                        {{
+                            width : "100px",
+                            padding: "12px",
+                            backgroundColor: "#6C4AB6",
+                            color: "#FFFFFF",
+                            border: "none",
+                            borderRadius: "4px",
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            cursor: "pointer",
+
+                        }}>
+                    ← Back
+                </button>
             </Link>
 
             <span className="inline-flex items-center rounded-full bg-[#E5CCFF] px-4 py-1 text-xs font-semibold text-[#2C2C2C]">

@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { useState } from "react";
+import styles from "@/components/logSurplusItem/LogSurplusForm.module.css";
 
 export default function DetailedAnalyticsPage() {
   const data = [
@@ -54,9 +55,23 @@ style={{
       <div className="mb-6">
         <Link
           href="/weekly-waste"
-          className="text-[#000000] font-medium hover:underline flex items-center gap-2"
         >
-          ← Back
+            <button
+                style =
+                {{
+                    width : "100px",
+                    padding: "12px",
+                    backgroundColor: "#6C4AB6",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: "4px",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+
+                }}>
+                ← Back
+            </button>
         </Link>
       </div>
 
