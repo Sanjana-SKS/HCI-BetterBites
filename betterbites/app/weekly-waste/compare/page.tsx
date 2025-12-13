@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type WasteItem = {
   id: string;
@@ -40,7 +41,35 @@ export default function CompareWeeksPage() {
   const b = weekB ? getStats(weekB) : null;
 
   return (
+
     <div className="space-y-6">
+
+      <div className="mb-6">
+        <Link
+            href="/weekly-waste"
+        >
+          <button
+              style =
+                  {{
+                    width : "100px",
+                    padding: "12px",
+                    backgroundColor: "#6C4AB6",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: "4px",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+
+                  }}>
+            ← Back
+          </button>
+        </Link>
+      </div>
+
+
+
+
       <h1 className="text-2xl font-bold">Compare Weeks</h1>
 
       {/* Week selectors */}

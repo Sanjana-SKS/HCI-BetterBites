@@ -55,7 +55,6 @@ style={{
       <div className="mb-6">
         <Link
           href="/weekly-waste"
-          className="text-[#000000] font-medium hover:underline flex items-center gap-2"
         >
             <button
                 style =
