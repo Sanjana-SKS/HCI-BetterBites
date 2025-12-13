@@ -27,7 +27,6 @@ export default function LogSurplusForm() {
     "Other",
   ];
 
-  //get current date and format
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
   const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -42,11 +41,11 @@ export default function LogSurplusForm() {
       return;
     }
 
-    // Store submitted data and show confirmation
+    // stor submitted data and show confirmation
     setSubmittedData({ item, quantity, expiration, category });
     setShowConfirmation(true);
 
-    // Reset form
+    //resets form after use
     setItem("");
     setQuantity("");
     setExpiration("");
@@ -84,7 +83,7 @@ export default function LogSurplusForm() {
             marginTop: "0",
           }}
         >
-          Log Surplus Item
+          Log Donation Items
         </h1>
 
         {/* Form container */}

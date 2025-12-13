@@ -1,15 +1,7 @@
-/* betterbites/app/globals.css */
-
-/* Tailwind v4 core */
 @import "tailwindcss";
-
-/* Animations for shadcn components */
 @import "tw-animate-css";
-
-/* Dark-mode helper from shadcn */
 @custom-variant dark (&:is(.dark *));
 
-/* Body styling */
 body {
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
   margin: 0;
@@ -17,39 +9,31 @@ body {
   overflow-x: hidden;
 }
 
-/* Prevent image grid lines from showing up */
 * {
   box-sizing: border-box;
   border: none !important;
   outline: none !important;
 }
-
-/* Repeating background pattern */
 .bg-food-pattern {
   background-image: url('/backgrounds/food-background.png');
   background-repeat: repeat;
-  background-size: 350px; /* keeps pattern proportions */
+  background-size: 350px;
   background-position: top left;
   background-color: #d9d9d9;
   image-rendering: crisp-edges;
   border: none;
  
 }
-
-/* Headings */
 h1, h2, h3 {
   margin: 0;
   padding: 0;
   text-shadow: none;
 }
-
-/* Smooth text */
 html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Theme variables (from shadcn) */
-
+/*this is all form shadcn library for global consistenc*/
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -157,7 +141,7 @@ html, body {
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
-/* Use Tailwind's border + ring variables on everything by default */
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
