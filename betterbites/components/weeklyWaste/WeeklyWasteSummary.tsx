@@ -1,5 +1,6 @@
 "use client";
 
+//imports mostly for routing
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import SummaryCard from "@/components/ui/summarycard"
 
 type WeekKey = string;
 
+//Sample data thats hardcoded. Matched with proper variable types
 const weeklyData: Record<
   WeekKey,
   {
@@ -24,6 +26,9 @@ const weeklyData: Record<
     bar: { labels: string[]; values: number[]; categories?: Record<string, number[]> };
   }
 > = {
+
+
+    //Sample entries
   "Jan 1–7": {
     totalItems: 63,
     bestTime: "Afternoon",
@@ -79,6 +84,7 @@ const weeklyData: Record<
     bar: {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       values: [12, 10, 11, 14, 9, 9, 7],
+        //
       categories: {
         Pastries: [4, 3, 3, 4, 2, 2, 2],
         Dairy: [3, 3, 3, 4, 3, 3, 2],
@@ -89,19 +95,23 @@ const weeklyData: Record<
   },
 };
 
+//all of the food categories are listed
 const allCategories = ["All Categories", "Pastries", "Dairy", "Bread", "Produce", "Other"];
 
 export default function WeeklyWasteSummary() {
   const router = useRouter();
+  //the default week is set to Jan 1-7 as what's shown
   const defaultWeek = Object.keys(weeklyData)[0];
   const [selectedWeek, setSelectedWeek] = useState<WeekKey>(defaultWeek);
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
+
+  //this is used for the pdf export
   const dashboardRef = useRef<HTMLDivElement | null>(null);
 
   const week = weeklyData[selectedWeek];
 
   // chart data is filtered by category when a specific category is chosen
-  const pieData =
+  const pieChartData =
     selectedCategory === "All Categories"
       ? week.pie
       : {
@@ -112,7 +122,7 @@ export default function WeeklyWasteSummary() {
           ],
         };
 
-  const barData =
+  const barChartData =
     selectedCategory === "All Categories"
       ? { labels: week.bar.labels, values: week.bar.values }
       : {
@@ -122,7 +132,7 @@ export default function WeeklyWasteSummary() {
 
   const handleDownloadCSV = () => {
     const filename = `betterbites_${selectedWeek.replace(/\s+/g, "_")}.csv`;
-    exportCSV({ weekKey: selectedWeek, pie: pieData, bar: barData }, filename);
+    exportCSV({ weekKey: selectedWeek, pie: pieChartData, bar: barChartData }, filename);
   };
 
   const handleDownloadPDF = async () => {
@@ -130,9 +140,11 @@ export default function WeeklyWasteSummary() {
     await exportMultiPagePDF(dashboardRef.current, `betterbites_${selectedWeek.replace(/\s+/g, "_")}.pdf`);
   };
 
+  //this is for the layout of the ui
+  //using inline styles
+
   return (
     <div className="min-h-screen flex flex-col items-center">
-      {/* ───────────────────────── Page title ───────────────────────── */}
       <h1
         style={{
           color: "#000",
@@ -151,13 +163,12 @@ export default function WeeklyWasteSummary() {
         Weekly Waste Summary
       </h1>
 
-      {/* Week + Category selectors */}
+      {/* Selectors for the week and category */}
       <div style={{ marginBottom: "16px", display: "flex", gap: 16, alignItems: "center" }}>
         <WeekSelector selectedWeek={selectedWeek} onChange={(w) => setSelectedWeek(w)} weeks={Object.keys(weeklyData)} />
         <CategorySelector selected={selectedCategory} onChange={(c) => setSelectedCategory(c)} categories={allCategories} />
       </div>
-      
-      {/* ───────────────────────── Main content wrapper ───────────────────────── */}
+
       <div
         ref={dashboardRef}
         style={{
@@ -170,7 +181,7 @@ export default function WeeklyWasteSummary() {
           paddingRight: "80px",
         }}
       >
-        {/* ───────── Row 1: Total Items Donated | Best Time ───────── */}
+        {/* Summary cards for each row*/}
         <div
           style={{
             display: "flex",
@@ -183,7 +194,6 @@ export default function WeeklyWasteSummary() {
           <SummaryCard title="Best Time" value={week.bestTime} />
         </div>
 
-        {/* ───────── Row 2: Top Category | Pickups Scheduled ───────── */}
         <div
           style={{
             display: "flex",
@@ -196,7 +206,7 @@ export default function WeeklyWasteSummary() {
           <SummaryCard title="Pickups Scheduled" value={week.pickups} />
         </div>
 
-        {/* ───────── Row 3: Waste Reduction full width ───────── */}
+
         <div
           style={{
             borderRadius: "8px",
@@ -231,7 +241,7 @@ export default function WeeklyWasteSummary() {
           </p>
         </div>
 
-        {/* ───────── Charts Row (Pie + Bar) ───────── */}
+        {/* Chart display*/}
         <div
           style={{
             display: "flex",
@@ -241,11 +251,11 @@ export default function WeeklyWasteSummary() {
             maxWidth: "920px",
           }}
         >
-          <CategoryPieChart labels={pieData.labels} values={pieData.values} />
-          <WeeklyBarChart labels={barData.labels} values={barData.values} />
+          <CategoryPieChart labels={pieChartData.labels} values={pieChartData.values} />
+          <WeeklyBarChart labels={barChartData.labels} values={barChartData.values} />
         </div>
 
-        {/* ─────────────── Button: Detailed Analytics ─────────────── */}
+        {/* Detailed Analytics Button*/}
         <div
           style={{
             display: "flex",
@@ -257,6 +267,7 @@ export default function WeeklyWasteSummary() {
             alignItems: "center",
           }}
         >
+            {/* This is the link to look at deeper analytics*/}
           <Link
             href="/analytics/detailed"
             className="px-6 py-3 rounded-full text-white text-sm font-medium shadow-md transition-all"
@@ -268,7 +279,7 @@ export default function WeeklyWasteSummary() {
             View Detailed Analytics →
           </Link>
 
-          {/* Download dropdown */}
+          {/* Simple toggle for dropdown */}
           <div style={{ position: "relative" }}>
             <button
               onClick={(e) => {
@@ -298,6 +309,7 @@ export default function WeeklyWasteSummary() {
               />
             </button>
 
+              {/* Download menu */}
             <div
               id="download-menu"
               style={{
@@ -346,7 +358,7 @@ export default function WeeklyWasteSummary() {
           </div>
         </div>
 
-        {/* bottom padding */}
+        {/* padding for the bottom*/}
         <div style={{ height: 40 }} />
       </div>
     </div>
