@@ -1,4 +1,4 @@
-import LogSurplusForm from "@/components/logSurplus/LogSurplusForm";
+import LogSurplusForm from "@/components/logSurplusItem/LogSurplusForm";
 
 export const metadata = {
   title: "Log Surplus Item - Better Bites",
