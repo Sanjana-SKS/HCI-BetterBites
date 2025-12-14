@@ -2,7 +2,7 @@
 "use client";
 
 import ConfirmationScreen from "./ConfirmationScreen"
-import {useState, useEffect, FormEvent} from "react";
+import React, {useState, useEffect, FormEvent} from "react";
 import styles from "./LogSurplusForm.module.css";
 
 //added this ti avoid the type error we were gettgin at deployment
@@ -25,8 +25,24 @@ export default function LogSurplusForm() {
 
     //populate all of the food categories
     const categories = [
-        "Proteins", "Fruits/Vegetables", "Dairy", "Grains", "Prepared Food", "Other",
+        "Pastries", "Dairy", "Bread", "Produce", "Other",
     ];
+
+    const noTyping = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const allowedKeys = [
+            "Tab",
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowUp",
+            "ArrowDown",
+            "Escape",
+            "Enter",
+
+        ];
+        if(!allowedKeys.includes(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     //placeholder errors for each category
     const [errors, setErrors] = useState({
@@ -117,6 +133,7 @@ export default function LogSurplusForm() {
 
                     <label className={styles.label}>Expiration Date*</label>
                     <input className={styles.input}
+                           onKeyDown={noTyping}
                         type = "date"
                         placeholder = "Enter Date"
                         value = {expDate}
