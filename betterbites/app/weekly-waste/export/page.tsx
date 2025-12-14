@@ -166,7 +166,7 @@ function ExportReportContent() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between">
-        <Link href="/weekly-waste/compare" className="text-sm hover:underline">
+        <Link href="/items" className="text-sm hover:underline">
           <button
               style =
                   {{
