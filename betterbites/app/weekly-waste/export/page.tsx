@@ -167,7 +167,22 @@ function ExportReportContent() {
     <div className="space-y-6">
       <div className="flex justify-between">
         <Link href="/weekly-waste/compare" className="text-sm hover:underline">
-          ← Back to Compare
+          <button
+              style =
+                  {{
+                    width : "100px",
+                    padding: "12px",
+                    backgroundColor: "#6C4AB6",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: "4px",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+
+                  }}>
+            ← Back
+          </button>
         </Link>
         <span className="text-xs text-gray-600">
           {formatWeekLabel(weekA)} vs {formatWeekLabel(weekB)}

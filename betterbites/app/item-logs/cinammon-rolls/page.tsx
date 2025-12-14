@@ -50,9 +50,27 @@ export default function ItemLogPage() {
 
         {/* back button */}
         <div className="mb-6">
+
+
           <Link href="/items" className="text-black font-medium hover:underline">
-            ← Back
+            <button
+                style =
+                    {{
+                      width : "100px",
+                      padding: "12px",
+                      backgroundColor: "#6C4AB6",
+                      color: "#FFFFFF",
+                      border: "none",
+                      borderRadius: "4px",
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+
+                    }}>
+              ← Back
+            </button>
           </Link>
+
         </div>
 
         {/* title */}

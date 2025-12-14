@@ -1,6 +1,6 @@
 "use client";
 
-//imports mostly for routing
+//imports mostly for routing and graphs
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -100,7 +100,7 @@ const allCategories = ["All Categories", "Pastries", "Dairy", "Bread", "Produce"
 
 export default function WeeklyWasteSummary() {
   const router = useRouter();
-  //the default week is set to Jan 1-7 as what's shown
+  //the default week is set to Jan 1-7 as what's shown first
   const defaultWeek = Object.keys(weeklyData)[0];
   const [selectedWeek, setSelectedWeek] = useState<WeekKey>(defaultWeek);
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
@@ -144,7 +144,8 @@ export default function WeeklyWasteSummary() {
   //using inline styles
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center" style={{ fontFamily: "Roboto, sans-serif" }}>
+
       <h1
         style={{
           color: "#000",
@@ -207,41 +208,22 @@ export default function WeeklyWasteSummary() {
         </div>
 
 
-        <div
-          style={{
-            borderRadius: "8px",
-            backgroundColor: "#C9FDCB",
-            boxShadow: "0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24)",
-            padding: "24px",
-            width: "100%",
-            maxWidth: "920px",
-          }}
-        >
-          <h2
-            style={{
-              color: "#000",
-              fontFamily: "Roboto, sans-serif",
-              fontSize: "16px",
-              fontWeight: 600,
-              marginBottom: "12px",
-              lineHeight: "20px",
-            }}
+          <div
+              style={{
+                  backgroundColor: "#E8F7EA",
+                  borderRadius: 6,
+                  padding: "16px 20px",
+                  maxWidth: 920,
+              }}
           >
-            Waste Reduction
-          </h2>
-          <p
-            style={{
-              color: "#000",
-              fontFamily: "Roboto, sans-serif",
-              fontSize: "14px",
-              lineHeight: "20px",
-            }}
-          >
-            {week.wasteDelta}
-          </p>
-        </div>
+              <strong style={{ fontSize: 14 }}>Waste trend for this week</strong>
+              <div style={{ marginTop: 6, fontSize: 13 }}>
+                  {week.wasteDelta}
+              </div>
+          </div>
 
-        {/* Chart display*/}
+
+          {/* Chart display (pie and bar)*/}
         <div
           style={{
             display: "flex",
@@ -255,7 +237,7 @@ export default function WeeklyWasteSummary() {
           <WeeklyBarChart labels={barChartData.labels} values={barChartData.values} />
         </div>
 
-        {/* Detailed Analytics Button*/}
+        {/* For Detailed Analytics Button*/}
         <div
           style={{
             display: "flex",
